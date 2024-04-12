@@ -1,3 +1,10 @@
+/**
+ * @author Abdibaset Bare
+ * @create date 2024-04-12 17:23:10
+ * @modify date 2024-04-12 18:23:19
+ * @desc [description]
+ */
+
 %{
 #include<stdio.h>
 #include<ast.h>

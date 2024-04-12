@@ -1,3 +1,9 @@
+/**
+ * @author Abdibaset Bare
+ * @create date 2024-04-12 17:22:44
+ * @modify date 2024-04-12 18:23:08
+ * @desc - this file defines the grammar rules for a given c program 
+ */
 %{
 #include <stdio.h>
 #include <iostream>
@@ -25,6 +31,15 @@ extern_func             : EXTERN INT READ '(' ')' ';'   {$$ = createExtern("read
 
 function                : INT VARID '(' VARID ')' block  { $$ = createFunc($2, $4, $6);
                                                            free($2); free($6);}
+/* all_if_blocks           : if_blocks if_block        {$$ = $1;
+                                                     $$->push_back($2);}
+                        | if_block                  {$$ = new vector<astNode*>();
+                                                     $$->push_back($1);}
+
+all_while_blocks        : while_blocks while_block      {$$ = $1;
+                                                        $$->push_back($2);}
+                        | while_block                   {$$ = new vector<astNode*>();
+                                                        $$->push_back($1);}     */
 
 if_block                : IF '(' condition ')' block else_block { $$ = createIf($2, )}
 else_block              : ELSE '{' block'}'  
@@ -36,11 +51,12 @@ condition               : term EQ term          { $$ = createRExpr($1, $3, "==")
                         | term GREATEROREQ term { $$ = createRExpr($1, $3, ">=");}
                         | term LESSOREQ term    { $$ = createRExpr($1, $3, "<=");}
 
-block                   : '{' variableDeclarations all_statements   { vector<astNode*> *node_vect = new vector<astNode*> ();
-                                                                      node_vect->insert(node_vect.end(), $2->begin(), $2->end());
-                                                                      node_vect->insert(node_vect.end(), $3->begin(), $3->end());
-                                                                      $$ = createBlock(node_vect);
-                                                                      delete($2); delete($3);}
+/* all_blocks              : blocks block */
+block                   : '{' variableDeclarations all_statements '}' { vector<astNode*> *node_vect = new vector<astNode*> ();
+                                                                        node_vect->insert(node_vect.end(), $2->begin(), $2->end());
+                                                                        node_vect->insert(node_vect.end(), $3->begin(), $3->end());
+                                                                        $$ = createBlock(node_vect);
+                                                                        delete($2); delete($3);}
                         | '{' all_statements '}'                    { $$ = createBlock($2);}    
 
 
@@ -81,5 +97,4 @@ term                    : NUMBER    { $$ = createCnst($1);}
 return                  : RETURN '(' expression ')' ';' { $$ = createRet($3);}
                         | RETURN expression ';'   { $$ = createRet($2);}
                         | RETURN ';'    { $$ = createRet(NULL);}
-
 %%
