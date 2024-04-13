@@ -1,15 +1,13 @@
-CCFLAGS = -Wall -pedantic -std=c11 -I. -g
+CCFLAGS = -Wall -pedantic -std=c++11 -I. -g
 # static library libutils
 LIBS=-lutils
-pfilename = parser
+filename=parser
 
-ast:	
-		gcc $(CCFLAGS) ast.c $(LIBS) -o $@
-		
-$(pfilename).out:	$(pfilename).l $(filename).y ast.o
-					lex $(pfilename).l
-					yacc lex.yy.c -o $(pfilename).out
+$(filename).out:	$(filename).l $(filename).y 
+					yacc -d $(filename).y
+					lex $(filename).l
+					g++ $(CCFLAGS) -o $(filename).out $(LIBS) lex.yy.c y.tab.c
 
 
 clean:
-		rm lex.yy.c y.tab.c y.tab.h $(pfilename).out y.output *.o ast 
+		rm lex.yy.c y.tab.c y.tab.h $(filename).out y.output *.o 

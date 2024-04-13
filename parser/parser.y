@@ -21,11 +21,12 @@
 %token <varname> VARID
 %token <numval> NUMBER
 %type <astvec_ptr> all_statements variableDeclarations block
-%type<node> extern_func term declaration  statement expression if_block while_block return statements condition declarations  function
-%starts extern_func
+%type<node> extern_func term declaration  statement expression if_block while_block return statements condition declarations  function program
+%starts program
 
 
 %%
+program                 : extern_func extern_func function { $$ = createProgram($1, $2, $3);}
 extern_func             : EXTERN INT READ '(' ')' ';'   {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 

@@ -25,7 +25,6 @@ typedef enum {
 	} node_type;
 
 //enum to identy stmt typ
-e
 typedef enum {
 		ast_call,
 		ast_ret,

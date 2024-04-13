@@ -15,7 +15,7 @@ if [ ! -x "$executable_file" ]; then
     exit 1 
 fi
 
-bash valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 $executable_file "${@}" 2>&1 | tee valgrind.log
+bash valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 "$executable_file" "${@}" 2>&1 | tee valgrind.log
 status=$? # exist status of cmd above
 grep "no leaks" valgrind.log > /dev/null
 leaks=$? # exist status of cmd above
