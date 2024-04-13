@@ -5,7 +5,7 @@ ARCH=x86_64
 #check arguments
 if [ $# -lt 1 ]; then 
     echo "usage: valgrind.test <filename.c> <inputfile[arg]>"
-end 
+if 
 
 executable_file="$1"
 shift 
