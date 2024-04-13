@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <iostream>
 #include "ast.h"
+#include <vector>
+using namespace std;
 %}
 
 %union {
@@ -43,7 +45,7 @@ all_while_blocks        : while_blocks while_block      {$$ = $1;
                                                         $$->push_back($1);}     */
 
 if_block                : IF '(' condition ')' block else_block { $$ = createIf($2, )}
-else_block              : ELSE '{' block'}'  
+else_block              : ELSE '{' block '}'  
 while_block             : WHILE '(' condition ')' '{' all_statements '}' { $$ = createWhile($3, $6);}
 
 condition               : term EQ term          { $$ = createRExpr($1, $3, "==");}
@@ -58,7 +60,7 @@ block                   : '{' variableDeclarations all_statements '}' { vector<a
                                                                         node_vect->insert(node_vect.end(), $3->begin(), $3->end());
                                                                         $$ = createBlock(node_vect);
                                                                         delete($2); delete($3);}
-                        | '{' all_statements '}'                    { $$ = createBlock($2);}    
+                        | '{' all_statements '}'                      { $$ = createBlock($2);}    
 
 
 all_statements          : statements statement      { $$ = $1
