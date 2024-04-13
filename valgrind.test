@@ -1,0 +1,33 @@
+#!/bin/bash
+VERSION=1.0
+ARCH=x86_64
+
+#check arguments
+if [ $# -lt 1 ]; then 
+    echo "usage: valgrind.test <filename.c> <inputfile[arg]>"
+end 
+
+executable_file="$1"
+shift 
+
+if [ ! -x "$executable_file" ]; then 
+    echo -e "\033[91mFailed\033[0m   :${f} cannot be executed"
+    exit 1 
+fi
+
+bash valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 $executable_file "${@}" 2>&1 | tee valgrind.log
+status=$? # exist status of cmd above
+grep "no leaks" valgrind.log > /dev/null
+leaks=$? # exist status of cmd above
+grep "0 errors" valgrind.log > /dev/null
+errors=$? # exist status of cmd above
+
+if [ ${status} -ne 0 ] || [ ${leaks} -ne 0 ] || [ ${errors} -ne 0 ]; then 
+    echo -e "\033[91mFailed\033[0m   : valgrind found errors or memory leaks running ${executable_file}"
+    exit 1
+else
+    echo -e "Success: ${executable_file} ran without any errors or leaks"
+fi
+
+rm "valgrind.log"
+exit 0
