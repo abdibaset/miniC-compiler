@@ -6,7 +6,7 @@ OFILES=ast.o
 all:	$(OFILES)
 		ar cr ../lib/libutils.a $(OFILES) 
 
-%.o:	%.c
+%.o:	%.c *.h
 		g++ $(CCFLAGS) -c $<
 
 clean:
