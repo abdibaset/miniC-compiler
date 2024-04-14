@@ -1,12 +1,12 @@
-CCFLAGS = -Wall -pedantic -std=c++11 -I. -g
+CCFLAGS = -Wall -pedantic -Wno-unused-function -std=c++11 -I. -g
 # static library libutils
-LIBS=-lutils
+LIB=-L../lib/ -lutils
 filename=parser
 
-$(filename).out:	$(filename).l $(filename).y 
-					yacc -d $(filename).y
+$(filename).out:	$(filename).l $(filename).y semantic_analysis.c
+					yacc -d -v $(filename).y
 					lex $(filename).l
-					g++ $(CCFLAGS) -o $(filename).out $(LIBS) lex.yy.c y.tab.c
+					g++ $(CCFLAGS) -o $(filename).out lex.yy.c y.tab.c semantic_analysis.c $(LIB)
 
 
 clean:

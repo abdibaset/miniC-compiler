@@ -7,113 +7,102 @@
 %{
 #include <stdio.h>
 #include <iostream>
-#include "ast.h"
+#include "../utils/ast.h"
 #include <vector>
-using namespace std;''
+using namespace std;
+extern int yylex();
+extern int yylex_destroy();
+int yyerror(const char*);
 %}
 
 %union {
     astNode *node;
-    char varname;
+    char *varname;
     int numval;
     vector <astNode*> *astvec_ptr;
 }
 
-%token IF ELSE WHILE INT CHAR RETURN VOID EXTERN PRINT READ EQ GREATER GREATEROREQ LESS LESSOREQ
+%token IF ELSE WHILE INT CHAR RETURN VOID EXTERN PRINT READ
 %token <varname> VARID
 %token <numval> NUMBER
-%type <astvec_ptr> all_statements variableDeclarations block all_if_blocks all_while_blocks 
-%type<node> extern_func term declaration  statement expression if_block while_block return statements condition declarations  function program
-%starts program
+%type <astvec_ptr> statements declarations 
+%type<node> externFunc term declaration  statement expression ifBlock whileBlock return condition function program block elseBlock
+%start program
 
 
 %%
-program                 : extern_func extern_func function { $$ = createProgram($1, $2, $3);}
-extern_func             : EXTERN INT READ '(' ')' ';'   {$$ = createExtern("read");}
+program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3);
+                                                                   printNode($$);}
+externFunc              : EXTERN INT READ '(' ')' ';'       {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 
-function                : INT VARID '(' VARID ')' block  { $$ = createFunc($2, $4, $6);
-                                                           free($2); free($6);}   
+function                : INT VARID '(' INT term ')' block   { $$ = createFunc($2, $5, $7);}   
+                        | INT VARID '(' ')' block            { $$ = createFunc($2, NULL, $5);}
 
 
-condition               : term EQ term          { $$ = createRExpr($1, $3, "==");}
-                        | term GREATER term     { $$ = createRExpr($1, $3, ">");}
-                        | term LESS term        { $$ = createRExpr($1, $3, "<");}
-                        | term GREATEROREQ term { $$ = createRExpr($1, $3, ">=");}
-                        | term LESSOREQ term    { $$ = createRExpr($1, $3, "<=");}
+condition               : term '=' '=' term    { $$ = createRExpr($1, $4, eq);}
+                        | term '>' term        { $$ = createRExpr($1, $3, gt);}
+                        | term '<' term        { $$ = createRExpr($1, $3, lt);}
+                        | term '>' '=' term    { $$ = createRExpr($1, $4, ge);}
+                        | term '<' '=' term    { $$ = createRExpr($1, $4, le);}
+                        | term '!' '=' term    { $$ = createRExpr($1, $4, le);}
 
 
-block                   : '{' variableDeclarations all_statements all_if_blocks all_while_blocks'}' {   vector<astNode*> *node_vect = new vector<astNode*> ();
-                                                                                                        node_vect->insert(node_vect.end(), $2->begin(), $2->end());
-                                                                                                        node_vect->insert(node_vect.end(), $3->begin(), $3->end());
-                                                                                                        node_vect->insert(node_vect.end(), $4->begin(), $4->end());
-                                                                                                        node_vect->insert(node_vect.end(), $5->begin(), $5->end();)
-                                                                                                        $$ = createBlock(node_vect);
-                                                                                                        delete($2); delete($3); delete($4); delete($4);}
-                        | '{' all_statements all_if_blocks all_while_blocks '}'                     {   vector<astNode*> *node_vect = new vector<astNode*> ();
-                                                                                                        node_vect->insert(node_vect.end(), $2->begin(), $2->end());
-                                                                                                        node_vect->insert(node_vect.end(), $3->begin(), $3->end());
-                                                                                                        node_vect->insert(node_vect.end(), $4->begin(), $4->end());
-                                                                                                        $$ = createBlock(node_vect);
-                                                                                                        delete($2); delete($3); delete($4);}
-                        | '{' all_if_blocks all_while_blocks '}'                                    {   vector<astNode*> *node_vect = new vector<astNode*> ();
-                                                                                                        node_vect->insert(node_vect.end(), $2->begin(), $2->end());
-                                                                                                        node_vect->insert(node_vect.end(), $3->begin(), $3->end());
-                                                                                                        $$ = createBlock(node_vect);
-                                                                                                        delete($2); delete($3);}
-                        | '{' all_if_blocks '}'                                                     {   $$ = createBlock($2);}
-                        | '{' all_while_blocks '}'                                                  {   $$ = createBlock($2);}
-                        | '{' all_statements '}'                                                    {   $$ = createBlock($2);}    
+block                   : '{' declarations statements '}' { vector<astNode*> *node_vect = new vector<astNode*> ();
+                                                            node_vect->insert(node_vect->end(), $2->begin(), $2->end());
+                                                            node_vect->insert(node_vect->end(), $3->begin(), $3->end());
+                                                            $$ = createBlock(node_vect);
+                                                            delete($2); delete($3);}
+                        | '{' statements '}'              { $$ = createBlock($2);}    
 
-all_if_blocks           : if_blocks if_block        {$$ = $1;
-                                                     $$->push_back($2);}
-                        | if_block                  {$$ = new vector<astNode*>();
-                                                     $$->push_back($1);}
 
-all_while_blocks        : while_blocks while_block      {$$ = $1;
-                                                        $$->push_back($2);}
-                        | while_block                   {$$ = new vector<astNode*>();
-                                                        $$->push_back($1);} 
+ifBlock                 : IF '(' condition ')' block elseBlock     { $$ = createIf($3, $5, $6);}
+                        | IF '(' condition ')' statement           { $$ = createIf($$, $5, NULL);}
 
-if_block                : IF '(' condition ')' block else_block { $$ = createIf($2, )}
-else_block              : ELSE '{' block '}'  
-while_block             : WHILE '(' condition ')' '{' all_statements '}' { $$ = createWhile($3, $6);}
+elseBlock               : ELSE block      { $$ = $2;}
+                        | ELSE statement               { $$ = $2;}
+ 
+whileBlock              : WHILE '(' condition ')' '{' statement '}' { $$ = createWhile($3, $6);}
 
-all_statements          : statements statement      { $$ = $1
-                                                      $$->push_back($1);}
-                        | statement                 { $$ = new vector<astNode>();
+statements              : statements statement      { $$ = $1;
+                                                      $$->push_back($2);}
+                        | statement                 { $$ = new vector<astNode*>();
                                                       $$->push_back($1);}
 
 statement               : VARID '=' expression      { astNode* stmt_ptr = createVar($1);
                                                       $$ = createAsgn(stmt_ptr, $3);}
-                        | VARID '=' READ '(' ')'    { $$ = createCall("read");
-                                                      free($1);}
-                        | PRINT '(' VARID ')'       { $$ = createCall("print", $3);
-                                                      free($3);}  
+                        | VARID '=' READ '(' ')'    { $$ = createCall("read");}
+                        | PRINT '(' term ')'       { $$ = createCall("print", $3);}  
+                        | ifBlock                   { $$ = $1;}
+                        | whileBlock                { $$ = $1;}
+                        | return
             
-variableDeclarations    : declarations declaration      { $$ = $1;
+declarations            : declarations declaration      { $$ = $1;
                                                           $$->push_back($2);}
 
                         | declaration                   { $$ = new vector<astNode*>();
                                                           $$->push_back($1);}
-declaration             : INT VARID ';'     { $$ = createDecl($2);
-                                              free($2);}
-                        | CHAR VARID ';'    { $$ = createDecl($2);
-                                              free($1);}
+
+declaration             : INT VARID ';'     { $$ = createDecl($2);}
+                        | CHAR VARID ';'    { $$ = createDecl($2);}
 
                       
-expression              : term '+' term     { $$ = createBExpr($1, $3, $2);}
-                        | term '-' term     { $$ = createBExpr($1, $3, $2);}
-                        | term '*' term     { $$ = createBExpr($1, $3, $2);}
-                        | term '/' term     { $$ = createBExpr($1, $3, $2);}
+expression              : term '+' term     { $$ = createBExpr($1, $3, add);}
+                        | term '-' term     { $$ = createBExpr($1, $3, sub);}
+                        | term '*' term     { $$ = createBExpr($1, $3, mul);}
+                        | term '/' term     { $$ = createBExpr($1, $3, divide);}
                         | term              { $$ = $1;}
 
 term                    : NUMBER    { $$ = createCnst($1);}
-                        | VARID     { $$ = createVar($1);
-                                      free($1);}
-                        | '-' NUMBER {$$ = createUExpr($2, "uminus");}
+                        | VARID     { $$ = createVar($1);}
+                        | '-' term {$$ = createUExpr($2, uminus);}
 
 return                  : RETURN '(' expression ')' ';' { $$ = createRet($3);}
                         | RETURN expression ';'   { $$ = createRet($2);}
                         | RETURN ';'    { $$ = createRet(NULL);}
 %%
+
+int yyerror(const char *message){
+    fprintf(stderr, "%s\n", message);
+    return 1;
+}

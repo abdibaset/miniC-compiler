@@ -1,13 +1,7 @@
-/**
- * @author Abdibaset Bare
- * @create date 2024-04-12 17:23:10
- * @modify date 2024-04-12 18:23:19
- * @desc [description]
- */
-
+/*parser lex file to identify tokens in a c program */
 %{
 #include<stdio.h>
-#include<ast.h>
+#include "../utils/ast.h"
 #include "y.tab.h"
 extern int yyerror(char *);
 %}
@@ -16,7 +10,6 @@ extern int yyerror(char *);
 if                          { return IF; }
 else                        { return ELSE;}
 while                       { return WHILE; }
-for                         { return FOR; }
 int                         { return INT; }
 char                        { return CHAR; }
 return                      { return RETURN;}
@@ -25,21 +18,14 @@ extern                      { return EXTERN; }
 print                       { return PRINT;}
 read                        { return READ;}
 
-"=="                        { return EQ;}
-">"                         { return GREATER;}
-"<"                         { return LESS;}
-">="                        { return GREATEROREQ;}
-"<="                        { return LESSOREQ;}
-"!="                        { return NOTEQ;}
 
-
-[a-zA-Z][a-zA-Z0-9]+        { yylval.sname = calloc(strlen(yytext)+1, sizeof(char));
-                              strcpy(yylval.sname, yytext);)
+[a-zA-Z][a-zA-Z0-9]+        { yylval.varname = (char *) calloc(strlen(yytext)+1, sizeof(char));
+                              strcpy(yylval.varname, yytext);
                               return VARID;}
-[0-9]+                      { yylval.int = atoi(yytext);
+[0-9]+                      { yylval.numval = atoi(yytext);
                               return NUMBER;}
 
-:                           { return yytext[0]; } 
+:                           { return yytext[0];} 
 [ \n\t]
 .                           { return yytext[0];}
 %%
