@@ -133,28 +133,28 @@ typedef struct {
 struct ast_Stmt{
 		stmt_type type;
 		union {
-		  astCall   call;
-		  astRet    ret;
-		  astBlock  block;
-		  astWhile  whilen;
-		  astIf     ifn;
-		  astDecl   decl;
-		  astAsgn 	asgn;
+			astCall   call;
+			astRet    ret;
+			astBlock  block;
+			astWhile  whilen;
+			astIf     ifn;
+			astDecl   decl;
+			astAsgn 	asgn;
 		};
 	};
 
 struct ast_Node{
 		node_type type;
 		union {
-		  astProg   prog;
-		  astFunc   func;
-		  astExtern ext;
-		  astStmt   stmt;
-		  astVar    var;
-		  astConst  cnst;
-		  astRExpr  rexpr;
-		  astBExpr  bexpr;
-      astUExpr  uexpr;
+			astProg   prog;
+			astFunc   func;
+			astExtern ext;
+			astStmt   stmt;
+			astVar    var;
+			astConst  cnst;
+			astRExpr  rexpr;
+			astBExpr  bexpr;
+			astUExpr  uexpr;
 		};
 	};
 

@@ -1,0 +1,1036 @@
+==106378== Memcheck, a memory error detector
+==106378== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==106378== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==106378== Command: parser.out parser_tests/p1.c
+==106378== 
+Starting parse
+Entering state 0
+Stack now 0
+Reading a token
+Next token is token EXTERN ()
+Shifting token EXTERN ()
+Entering state 1
+Stack now 0 1
+Reading a token
+Next token is token VOID ()
+Shifting token VOID ()
+Entering state 5
+Stack now 0 1 5
+Reading a token
+Next token is token PRINT ()
+Shifting token PRINT ()
+Entering state 9
+Stack now 0 1 5 9
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 13
+Stack now 0 1 5 9 13
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 16
+Stack now 0 1 5 9 13 16
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 19
+Stack now 0 1 5 9 13 16 19
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 22
+Stack now 0 1 5 9 13 16 19 22
+Reducing stack by rule 3 (line 38):
+   $1 = token EXTERN ()
+   $2 = token VOID ()
+   $3 = token PRINT ()
+   $4 = token '(' ()
+   $5 = token INT ()
+   $6 = token ')' ()
+   $7 = token ';' ()
+-> $$ = nterm externFunc ()
+Entering state 3
+Stack now 0 3
+Reading a token
+Next token is token EXTERN ()
+Shifting token EXTERN ()
+Entering state 1
+Stack now 0 3 1
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 4
+Stack now 0 3 1 4
+Reading a token
+Next token is token READ ()
+Shifting token READ ()
+Entering state 8
+Stack now 0 3 1 4 8
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 12
+Stack now 0 3 1 4 8 12
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 15
+Stack now 0 3 1 4 8 12 15
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 18
+Stack now 0 3 1 4 8 12 15 18
+Reducing stack by rule 2 (line 37):
+   $1 = token EXTERN ()
+   $2 = token INT ()
+   $3 = token READ ()
+   $4 = token '(' ()
+   $5 = token ')' ()
+   $6 = token ';' ()
+-> $$ = nterm externFunc ()
+Entering state 7
+Stack now 0 3 7
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 10
+Stack now 0 3 7 10
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 14
+Stack now 0 3 7 10 14
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 17
+Stack now 0 3 7 10 14 17
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 20
+Stack now 0 3 7 10 14 17 20
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 26
+Stack now 0 3 7 10 14 17 20 26
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 30
+Stack now 0 3 7 10 14 17 20 26 30
+Reading a token
+Next token is token '{' ()
+Shifting token '{' ()
+Entering state 27
+Stack now 0 3 7 10 14 17 20 26 30 27
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 33
+Stack now 0 3 7 10 14 17 20 26 30 27 33
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 48
+Stack now 0 3 7 10 14 17 20 26 30 27 33 48
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 63
+Stack now 0 3 7 10 14 17 20 26 30 27 33 48 63
+Reducing stack by rule 29 (line 87):
+   $1 = token INT ()
+   $2 = token VARID ()
+   $3 = token ';' ()
+-> $$ = nterm declaration ()
+Entering state 43
+Stack now 0 3 7 10 14 17 20 26 30 27 43
+Reducing stack by rule 28 (line 84):
+   $1 = nterm declaration ()
+-> $$ = nterm declarations ()
+Entering state 42
+Stack now 0 3 7 10 14 17 20 26 30 27 42
+Reading a token
+Next token is token INT ()
+Shifting token INT ()
+Entering state 33
+Stack now 0 3 7 10 14 17 20 26 30 27 42 33
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 48
+Stack now 0 3 7 10 14 17 20 26 30 27 42 33 48
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 63
+Stack now 0 3 7 10 14 17 20 26 30 27 42 33 48 63
+Reducing stack by rule 29 (line 87):
+   $1 = token INT ()
+   $2 = token VARID ()
+   $3 = token ';' ()
+-> $$ = nterm declaration ()
+Entering state 59
+Stack now 0 3 7 10 14 17 20 26 30 27 42 59
+Reducing stack by rule 27 (line 81):
+   $1 = nterm declarations ()
+   $2 = nterm declaration ()
+-> $$ = nterm declarations ()
+Entering state 42
+Stack now 0 3 7 10 14 17 20 26 30 27 42
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 37
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37
+Reading a token
+Next token is token '=' ()
+Shifting token '=' ()
+Entering state 55
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37 55
+Reading a token
+Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 24
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37 55 24
+Reducing stack by rule 36 (line 97):
+   $1 = token NUMBER ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37 55 53
+Reading a token
+Next token is token ';' ()
+Reducing stack by rule 35 (line 95):
+   $1 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 73
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37 55 73
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 88
+Stack now 0 3 7 10 14 17 20 26 30 27 42 37 55 73 88
+Reducing stack by rule 21 (line 73):
+   $1 = token VARID ()
+   $2 = token '=' ()
+   $3 = nterm expression ()
+   $4 = token ';' ()
+-> $$ = nterm statement ()
+Entering state 41
+Stack now 0 3 7 10 14 17 20 26 30 27 42 41
+Reducing stack by rule 20 (line 70):
+   $1 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 58
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 37
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37
+Reading a token
+Next token is token '=' ()
+Shifting token '=' ()
+Entering state 55
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37 55
+Reading a token
+Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 24
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37 55 24
+Reducing stack by rule 36 (line 97):
+   $1 = token NUMBER ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37 55 53
+Reading a token
+Next token is token ';' ()
+Reducing stack by rule 35 (line 95):
+   $1 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 73
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37 55 73
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 88
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 37 55 73 88
+Reducing stack by rule 21 (line 73):
+   $1 = token VARID ()
+   $2 = token '=' ()
+   $3 = nterm expression ()
+   $4 = token ';' ()
+-> $$ = nterm statement ()
+Entering state 57
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 57
+Reducing stack by rule 19 (line 68):
+   $1 = nterm statements ()
+   $2 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 58
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58
+Reading a token
+Next token is token IF ()
+Shifting token IF ()
+Entering state 31
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 46
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 61
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 61
+Reading a token
+Next token is token '<' ()
+Shifting token '<' ()
+Entering state 78
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 61 78
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 61 78 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 95
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 61 78 95
+Reducing stack by rule 8 (line 46):
+   $1 = nterm term ()
+   $2 = token '<' ()
+   $3 = nterm term ()
+-> $$ = nterm condition ()
+Entering state 60
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 75
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75
+Reading a token
+Next token is token '{' ()
+Shifting token '{' ()
+Entering state 27
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27
+Reading a token
+Next token is token WHILE ()
+Shifting token WHILE ()
+Entering state 32
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 47
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 61
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 61
+Reading a token
+Next token is token '<' ()
+Shifting token '<' ()
+Entering state 78
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 61 78
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 61 78 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 95
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 61 78 95
+Reducing stack by rule 8 (line 46):
+   $1 = nterm term ()
+   $2 = token '<' ()
+   $3 = nterm term ()
+-> $$ = nterm condition ()
+Entering state 62
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 80
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80
+Reading a token
+Next token is token '{' ()
+Shifting token '{' ()
+Entering state 97
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 37
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37
+Reading a token
+Next token is token '=' ()
+Shifting token '=' ()
+Entering state 55
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 53
+Reading a token
+Next token is token '+' ()
+Shifting token '+' ()
+Entering state 67
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 53 67
+Reading a token
+Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 24
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 53 67 24
+Reducing stack by rule 36 (line 97):
+   $1 = token NUMBER ()
+-> $$ = nterm term ()
+Entering state 82
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 53 67 82
+Reducing stack by rule 31 (line 91):
+   $1 = nterm term ()
+   $2 = token '+' ()
+   $3 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 73
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 73
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 88
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 37 55 73 88
+Reducing stack by rule 21 (line 73):
+   $1 = token VARID ()
+   $2 = token '=' ()
+   $3 = nterm expression ()
+   $4 = token ';' ()
+-> $$ = nterm statement ()
+Entering state 107
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 107
+Reading a token
+Next token is token '}' ()
+Shifting token '}' ()
+Entering state 111
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 32 47 62 80 97 107 111
+Reducing stack by rule 18 (line 66):
+   $1 = token WHILE ()
+   $2 = token '(' ()
+   $3 = nterm condition ()
+   $4 = token ')' ()
+   $5 = token '{' ()
+   $6 = nterm statement ()
+   $7 = token '}' ()
+-> $$ = nterm whileBlock ()
+Entering state 39
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 39
+Reducing stack by rule 25 (line 78):
+   $1 = nterm whileBlock ()
+-> $$ = nterm statement ()
+Entering state 41
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 41
+Reducing stack by rule 20 (line 70):
+   $1 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 40
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 37
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37
+Reading a token
+Next token is token '=' ()
+Shifting token '=' ()
+Entering state 55
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55
+Reading a token
+Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 24
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 24
+Reducing stack by rule 36 (line 97):
+   $1 = token NUMBER ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 53
+Reading a token
+Next token is token '+' ()
+Shifting token '+' ()
+Entering state 67
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 53 67
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 53 67 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 82
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 53 67 82
+Reducing stack by rule 31 (line 91):
+   $1 = nterm term ()
+   $2 = token '+' ()
+   $3 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 73
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 73
+Reading a token
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 88
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 37 55 73 88
+Reducing stack by rule 21 (line 73):
+   $1 = token VARID ()
+   $2 = token '=' ()
+   $3 = nterm expression ()
+   $4 = token ';' ()
+-> $$ = nterm statement ()
+Entering state 57
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 57
+Reducing stack by rule 19 (line 68):
+   $1 = nterm statements ()
+   $2 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 40
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40
+Reading a token
+Next token is token '}' ()
+Shifting token '}' ()
+Entering state 56
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 27 40 56
+Reducing stack by rule 13 (line 57):
+   $1 = token '{' ()
+   $2 = nterm statements ()
+   $3 = token '}' ()
+-> $$ = nterm block ()
+Entering state 89
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89
+Reading a token
+Next token is token ELSE ()
+Shifting token ELSE ()
+Entering state 101
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101
+Reading a token
+Next token is token '{' ()
+Shifting token '{' ()
+Entering state 27
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27
+Reading a token
+Next token is token IF ()
+Shifting token IF ()
+Entering state 31
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31
+Reading a token
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 46
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 61
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 61
+Reading a token
+Next token is token '<' ()
+Shifting token '<' ()
+Entering state 78
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 61 78
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 61 78 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 95
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 61 78 95
+Reducing stack by rule 8 (line 46):
+   $1 = nterm term ()
+   $2 = token '<' ()
+   $3 = nterm term ()
+-> $$ = nterm condition ()
+Entering state 60
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60
+Reading a token
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 75
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 37
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37
+Reading a token
+Next token is token '=' ()
+Shifting token '=' ()
+Entering state 55
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37 55
+Reading a token
+Next token is token VARID ()
+Shifting token VARID ()
+Entering state 23
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37 55 23
+Reducing stack by rule 37 (line 98):
+   $1 = token VARID ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37 55 53
+Reading a token
+Next token is token ';' ()
+Reducing stack by rule 35 (line 95):
+   $1 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 73
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37 55 73
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 88
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 37 55 73 88
+Reducing stack by rule 21 (line 73):
+   $1 = token VARID ()
+   $2 = token '=' ()
+   $3 = nterm expression ()
+   $4 = token ';' ()
+-> $$ = nterm statement ()
+Entering state 90
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 31 46 60 75 90
+Reducing stack by rule 15 (line 61):
+   $1 = token IF ()
+   $2 = token '(' ()
+   $3 = nterm condition ()
+   $4 = token ')' ()
+   $5 = nterm statement ()
+-> $$ = nterm ifBlock ()
+Entering state 38
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 38
+Reducing stack by rule 24 (line 77):
+   $1 = nterm ifBlock ()
+-> $$ = nterm statement ()
+Entering state 41
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 41
+Reducing stack by rule 20 (line 70):
+   $1 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 40
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 40
+Reading a token
+Next token is token '}' ()
+Shifting token '}' ()
+Entering state 56
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 27 40 56
+Reducing stack by rule 13 (line 57):
+   $1 = token '{' ()
+   $2 = nterm statements ()
+   $3 = token '}' ()
+-> $$ = nterm block ()
+Entering state 109
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 101 109
+Reducing stack by rule 16 (line 63):
+   $1 = token ELSE ()
+   $2 = nterm block ()
+-> $$ = nterm elseBlock ()
+Entering state 102
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 31 46 60 75 89 102
+Reducing stack by rule 14 (line 60):
+   $1 = token IF ()
+   $2 = token '(' ()
+   $3 = nterm condition ()
+   $4 = token ')' ()
+   $5 = nterm block ()
+   $6 = nterm elseBlock ()
+-> $$ = nterm ifBlock ()
+Entering state 38
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 38
+Reducing stack by rule 24 (line 77):
+   $1 = nterm ifBlock ()
+-> $$ = nterm statement ()
+Entering state 57
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 57
+Reducing stack by rule 19 (line 68):
+   $1 = nterm statements ()
+   $2 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 58
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58
+Reading a token
+Next token is token RETURN ()
+Shifting token RETURN ()
+Entering state 35
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 35
+Reading a token
+Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 24
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 35 24
+Reducing stack by rule 36 (line 97):
+   $1 = token NUMBER ()
+-> $$ = nterm term ()
+Entering state 53
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 35 53
+Reading a token
+Next token is token ';' ()
+Reducing stack by rule 35 (line 95):
+   $1 = nterm term ()
+-> $$ = nterm expression ()
+Entering state 52
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 35 52
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 66
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 35 52 66
+Reducing stack by rule 40 (line 102):
+   $1 = token RETURN ()
+   $2 = nterm expression ()
+   $3 = token ';' ()
+-> $$ = nterm return ()
+Entering state 44
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 44
+Reducing stack by rule 26 (line 79):
+   $1 = nterm return ()
+-> $$ = nterm statement ()
+Entering state 57
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 57
+Reducing stack by rule 19 (line 68):
+   $1 = nterm statements ()
+   $2 = nterm statement ()
+-> $$ = nterm statements ()
+Entering state 58
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58
+Reading a token
+Next token is token '}' ()
+Shifting token '}' ()
+Entering state 74
+Stack now 0 3 7 10 14 17 20 26 30 27 42 58 74
+Reducing stack by rule 12 (line 52):
+   $1 = token '{' ()
+   $2 = nterm declarations ()
+   $3 = nterm statements ()
+   $4 = token '}' ()
+-> $$ = nterm block ()
+Entering state 45
+Stack now 0 3 7 10 14 17 20 26 30 45
+Reducing stack by rule 4 (line 40):
+   $1 = token INT ()
+   $2 = token VARID ()
+   $3 = token '(' ()
+   $4 = token INT ()
+   $5 = nterm term ()
+   $6 = token ')' ()
+   $7 = nterm block ()
+-> $$ = nterm function ()
+Entering state 11
+Stack now 0 3 7 11
+Reducing stack by rule 1 (line 35):
+   $1 = nterm externFunc ()
+   $2 = nterm externFunc ()
+   $3 = nterm function ()
+-> $$ = nterm program ()
+Entering state 2
+Stack now 0 2
+Reading a token
+Now at end of input.
+Shifting token "end of file" ()
+Entering state 6
+Stack now 0 2 6
+Stack now 0 2 6
+Cleanup: popping token "end of file" ()
+Cleanup: popping nterm program ()
+Prog:
+ Func: func
+  Var: i
+  Stmt: 
+   Block:
+    Stmt: 
+     Decl: a
+    Stmt: 
+     Decl: b
+    Stmt: 
+     Asgn: lhs
+      Var: a
+     Asgn: rhs
+      Const: 5
+    Stmt: 
+     Asgn: lhs
+      Var: b
+     Asgn: rhs
+      Const: 2
+    Stmt: 
+     If: cond
+      RExpr: 
+       Var: a
+       Var: i
+     If: body
+      Stmt: 
+       Block:
+        Stmt: 
+         While: cond 
+          RExpr: 
+           Var: b
+           Var: i
+         While: body 
+          Stmt: 
+           Asgn: lhs
+            Var: b
+           Asgn: rhs
+            BExpr: 
+             Var: b
+             Const: 20
+        Stmt: 
+         Asgn: lhs
+          Var: a
+         Asgn: rhs
+          BExpr: 
+           Const: 10
+           Var: b
+     Else: body
+      Stmt: 
+       Block:
+        Stmt: 
+         If: cond
+          RExpr: 
+           Var: b
+           Var: i
+         If: body
+          Stmt: 
+           Asgn: lhs
+            Var: b
+           Asgn: rhs
+            Var: a
+    Stmt: 
+     Ret:
+      Const: 1
+==106378== 
+==106378== HEAP SUMMARY:
+==106378==     in use at exit: 1,953 bytes in 87 blocks
+==106378==   total heap usage: 161 allocs, 74 frees, 104,565 bytes allocated
+==106378== 
+==106378== 4 bytes in 2 blocks are still reachable in loss record 1 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x113023: createDecl(char const*) (ast.c:332)
+==106378==    by 0x10D577: yyparse() (parser.y:87)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 5 bytes in 1 blocks are still reachable in loss record 2 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x11250D: createExtern(char const*) (ast.c:75)
+==106378==    by 0x10CF2B: yyparse() (parser.y:37)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 5 bytes in 1 blocks are still reachable in loss record 3 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1123ED: createFunc(char const*, ast_Node*, ast_Node*) (ast.c:45)
+==106378==    by 0x10CF83: yyparse() (parser.y:40)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 6 bytes in 1 blocks are still reachable in loss record 4 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x11250D: createExtern(char const*) (ast.c:75)
+==106378==    by 0x10CF46: yyparse() (parser.y:38)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 8 bytes in 1 blocks are still reachable in loss record 5 of 29
+==106378==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10F43B: __gnu_cxx::new_allocator<ast_Node*>::allocate(unsigned long, void const*) (new_allocator.h:127)
+==106378==    by 0x10F0B1: std::allocator_traits<std::allocator<ast_Node*> >::allocate(std::allocator<ast_Node*>&, unsigned long) (alloc_traits.h:464)
+==106378==    by 0x10ED33: std::_Vector_base<ast_Node*, std::allocator<ast_Node*> >::_M_allocate(unsigned long) (stl_vector.h:346)
+==106378==    by 0x10E442: void std::vector<ast_Node*, std::allocator<ast_Node*> >::_M_realloc_insert<ast_Node* const&>(__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, ast_Node* const&) (vector.tcc:440)
+==106378==    by 0x10E0BB: std::vector<ast_Node*, std::allocator<ast_Node*> >::push_back(ast_Node* const&) (stl_vector.h:1198)
+==106378==    by 0x10D401: yyparse() (parser.y:71)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 10 bytes in 5 blocks are still reachable in loss record 6 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1125E8: createVar(char const*) (ast.c:97)
+==106378==    by 0x10D41C: yyparse() (parser.y:73)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 16 bytes in 1 blocks are still reachable in loss record 7 of 29
+==106378==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10F43B: __gnu_cxx::new_allocator<ast_Node*>::allocate(unsigned long, void const*) (new_allocator.h:127)
+==106378==    by 0x10F0B1: std::allocator_traits<std::allocator<ast_Node*> >::allocate(std::allocator<ast_Node*>&, unsigned long) (alloc_traits.h:464)
+==106378==    by 0x10ED33: std::_Vector_base<ast_Node*, std::allocator<ast_Node*> >::_M_allocate(unsigned long) (stl_vector.h:346)
+==106378==    by 0x10E442: void std::vector<ast_Node*, std::allocator<ast_Node*> >::_M_realloc_insert<ast_Node* const&>(__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, ast_Node* const&) (vector.tcc:440)
+==106378==    by 0x10E0BB: std::vector<ast_Node*, std::allocator<ast_Node*> >::push_back(ast_Node* const&) (stl_vector.h:1198)
+==106378==    by 0x10D3B0: yyparse() (parser.y:69)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 20 bytes in 10 blocks are still reachable in loss record 8 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1125E8: createVar(char const*) (ast.c:97)
+==106378==    by 0x10D6B9: yyparse() (parser.y:98)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 24 bytes in 1 blocks are still reachable in loss record 9 of 29
+==106378==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10D102: yyparse() (parser.y:52)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 39 bytes in 18 blocks are definitely lost in loss record 10 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10A944: yylex() (parser.l:22)
+==106378==    by 0x10CBB2: yyparse() (y.tab.c:1167)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 11 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1124E2: createExtern(char const*) (ast.c:72)
+==106378==    by 0x10CF46: yyparse() (parser.y:38)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 12 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1124E2: createExtern(char const*) (ast.c:72)
+==106378==    by 0x10CF2B: yyparse() (parser.y:37)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 13 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112DB6: createWhile(ast_Node*, ast_Node*) (ast.c:278)
+==106378==    by 0x10D376: yyparse() (parser.y:66)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 14 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112EC1: createIf(ast_Node*, ast_Node*, ast_Node*) (ast.c:301)
+==106378==    by 0x10D317: yyparse() (parser.y:61)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 15 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112EC1: createIf(ast_Node*, ast_Node*, ast_Node*) (ast.c:301)
+==106378==    by 0x10D2E3: yyparse() (parser.y:60)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 16 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112AC7: createRet(ast_Node*) (ast.c:230)
+==106378==    by 0x10D717: yyparse() (parser.y:102)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 17 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112BCA: createBlock(std::vector<ast_Node*, std::allocator<ast_Node*> >*) (ast.c:250)
+==106378==    by 0x10D23A: yyparse() (parser.y:55)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 18 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1123C2: createFunc(char const*, ast_Node*, ast_Node*) (ast.c:42)
+==106378==    by 0x10CF83: yyparse() (parser.y:40)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 40 bytes in 1 blocks are still reachable in loss record 19 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1122DB: createProg(ast_Node*, ast_Node*, ast_Node*) (ast.c:18)
+==106378==    by 0x10CEEE: yyparse() (parser.y:35)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 48 bytes in 1 blocks are still reachable in loss record 20 of 29
+==106378==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10F43B: __gnu_cxx::new_allocator<ast_Node*>::allocate(unsigned long, void const*) (new_allocator.h:127)
+==106378==    by 0x10F0B1: std::allocator_traits<std::allocator<ast_Node*> >::allocate(std::allocator<ast_Node*>&, unsigned long) (alloc_traits.h:464)
+==106378==    by 0x10ED33: std::_Vector_base<ast_Node*, std::allocator<ast_Node*> >::_M_allocate(unsigned long) (stl_vector.h:346)
+==106378==    by 0x10E99A: void std::vector<ast_Node*, std::allocator<ast_Node*> >::_M_range_insert<__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > > >(__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, std::forward_iterator_tag) (vector.tcc:769)
+==106378==    by 0x10E2D4: void std::vector<ast_Node*, std::allocator<ast_Node*> >::_M_insert_dispatch<__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > > >(__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, std::__false_type) (stl_vector.h:1665)
+==106378==    by 0x10DFBD: __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > > std::vector<ast_Node*, std::allocator<ast_Node*> >::insert<__gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, void>(__gnu_cxx::__normal_iterator<ast_Node* const*, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >, __gnu_cxx::__normal_iterator<ast_Node**, std::vector<ast_Node*, std::allocator<ast_Node*> > >) (stl_vector.h:1383)
+==106378==    by 0x10D22B: yyparse() (parser.y:54)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 48 bytes in 2 blocks are still reachable in loss record 21 of 29
+==106378==    at 0x4849013: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x10D3BF: yyparse() (parser.y:70)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 80 bytes in 2 blocks are still reachable in loss record 22 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112FED: createDecl(char const*) (ast.c:328)
+==106378==    by 0x10D577: yyparse() (parser.y:87)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 80 bytes in 2 blocks are still reachable in loss record 23 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1127FE: createBExpr(ast_Node*, ast_Node*, op_type) (ast.c:157)
+==106378==    by 0x10D5CD: yyparse() (parser.y:91)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 80 bytes in 2 blocks are still reachable in loss record 24 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112BCA: createBlock(std::vector<ast_Node*, std::allocator<ast_Node*> >*) (ast.c:250)
+==106378==    by 0x10D2A6: yyparse() (parser.y:57)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 120 bytes in 3 blocks are still reachable in loss record 25 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112729: createRExpr(ast_Node*, ast_Node*, rop_type) (ast.c:132)
+==106378==    by 0x10D050: yyparse() (parser.y:46)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 200 bytes in 5 blocks are still reachable in loss record 26 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x112697: createCnst(int) (ast.c:115)
+==106378==    by 0x10D69B: yyparse() (parser.y:97)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 200 bytes in 5 blocks are still reachable in loss record 27 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1125BD: createVar(char const*) (ast.c:94)
+==106378==    by 0x10D41C: yyparse() (parser.y:73)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 200 bytes in 5 blocks are still reachable in loss record 28 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x11310B: createAsgn(ast_Node*, ast_Node*) (ast.c:348)
+==106378==    by 0x10D443: yyparse() (parser.y:74)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== 400 bytes in 10 blocks are still reachable in loss record 29 of 29
+==106378==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106378==    by 0x1125BD: createVar(char const*) (ast.c:94)
+==106378==    by 0x10D6B9: yyparse() (parser.y:98)
+==106378==    by 0x1101E6: main (semantic_analysis.c:139)
+==106378== 
+==106378== LEAK SUMMARY:
+==106378==    definitely lost: 39 bytes in 18 blocks
+==106378==    indirectly lost: 0 bytes in 0 blocks
+==106378==      possibly lost: 0 bytes in 0 blocks
+==106378==    still reachable: 1,914 bytes in 69 blocks
+==106378==         suppressed: 0 bytes in 0 blocks
+==106378== 
+==106378== For lists of detected and suppressed errors, rerun with: -s
+==106378== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

@@ -19,7 +19,7 @@ print                       { return PRINT;}
 read                        { return READ;}
 
 
-[a-zA-Z][a-zA-Z0-9]+        { yylval.varname = (char *) calloc(strlen(yytext)+1, sizeof(char));
+[a-zA-Z][a-zA-Z0-9_]*        { yylval.varname = (char *) calloc(strlen(yytext)+1, sizeof(char));
                               strcpy(yylval.varname, yytext);
                               return VARID;}
 [0-9]+                      { yylval.numval = atoi(yytext);

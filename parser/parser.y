@@ -13,6 +13,7 @@ using namespace std;
 extern int yylex();
 extern int yylex_destroy();
 int yyerror(const char*);
+astNode* root;
 %}
 
 %union {
@@ -31,8 +32,8 @@ int yyerror(const char*);
 
 
 %%
-program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3);
-                                                                   printNode($$);}
+program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3); printNode($$);
+                                                                  root = $$;}
 externFunc              : EXTERN INT READ '(' ')' ';'       {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 
@@ -57,7 +58,7 @@ block                   : '{' declarations statements '}' { vector<astNode*> *no
 
 
 ifBlock                 : IF '(' condition ')' block elseBlock     { $$ = createIf($3, $5, $6);}
-                        | IF '(' condition ')' statement           { $$ = createIf($$, $5, NULL);}
+                        | IF '(' condition ')' statement           { $$ = createIf($3, $5, NULL);}
 
 elseBlock               : ELSE block      { $$ = $2;}
                         | ELSE statement               { $$ = $2;}
@@ -69,13 +70,13 @@ statements              : statements statement      { $$ = $1;
                         | statement                 { $$ = new vector<astNode*>();
                                                       $$->push_back($1);}
 
-statement               : VARID '=' expression      { astNode* stmt_ptr = createVar($1);
+statement               : VARID '=' expression ';'     { astNode* stmt_ptr = createVar($1);
                                                       $$ = createAsgn(stmt_ptr, $3);}
-                        | VARID '=' READ '(' ')'    { $$ = createCall("read");}
-                        | PRINT '(' term ')'       { $$ = createCall("print", $3);}  
+                        | VARID '=' READ '(' ')' ';'    { $$ = createCall("read");}
+                        | PRINT '(' term ')' ';'       { $$ = createCall("print", $3);}  
                         | ifBlock                   { $$ = $1;}
                         | whileBlock                { $$ = $1;}
-                        | return
+                        | return                    { $$ = $1;}
             
 declarations            : declarations declaration      { $$ = $1;
                                                           $$->push_back($2);}
