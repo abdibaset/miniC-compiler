@@ -9,7 +9,7 @@
         </ul>
         <p> To run the program use the cmnd: 
             <code style="font-family: Courier; background-color: #f4f4f4; padding: 0.2em 0.4em; border-radius: 0.3em;"> parser.out parser_tests/p#.c</code> <br>
-            To run valgrind while parser dir use the cmnd  <code style="font-family: Courier; background-color: #f4f4f4; padding: 0.2em 0.4em; border-radius: 0.3em;"> ../valgrind.tests parser.out parser_tests/p#.c </code>
+            To run valgrind while parser dir use the cmnd  <code style="font-family: Courier; background-color: #f4f4f4; padding: 0.2em 0.4em; border-radius: 0.3em;"> ../valgrind.test parser.out parser_tests/p#.c </code>
         </p>
     </div>
 </section>
