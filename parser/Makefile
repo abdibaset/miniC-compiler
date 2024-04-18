@@ -4,7 +4,7 @@ LIB=-L../lib/ -lutils
 filename=parser
 
 $(filename).out:	$(filename).l $(filename).y semantic_analysis.c
-					yacc -d -v --debug $(filename).y
+					yacc -d -v --debug -Wcounterexample $(filename).y
 					lex $(filename).l
 					g++ $(CCFLAGS) -o $(filename).out lex.yy.c y.tab.c semantic_analysis.c $(LIB)
 

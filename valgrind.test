@@ -31,5 +31,5 @@ else
     echo -e "Success: ${f} ran without any errors or leaks"
 fi
 
-rm "valgrind.log"
+rm -f "valgrind.log"
 exit 0

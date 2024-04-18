@@ -32,13 +32,13 @@ astNode* root;
 
 
 %%
-program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3); printNode($$);
-                                                                  root = $$;}
+program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3);
+                                                                root = $$;}
 externFunc              : EXTERN INT READ '(' ')' ';'       {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 
-function                : INT VARID '(' INT term ')' block   { $$ = createFunc($2, $5, $7);}   
-                        | INT VARID '(' ')' block            { $$ = createFunc($2, NULL, $5);}
+function                : INT VARID '(' INT term ')' block   { $$ = createFunc($2, $5, $7); free($2);}   
+                        | INT VARID '(' ')' block            { $$ = createFunc($2, NULL, $5); free($2);}
 
 
 condition               : term '=' '=' term    { $$ = createRExpr($1, $4, eq);}
@@ -60,19 +60,18 @@ block                   : '{' declarations statements '}' { vector<astNode*> *no
 ifBlock                 : IF '(' condition ')' block elseBlock     { $$ = createIf($3, $5, $6);}
                         | IF '(' condition ')' statement           { $$ = createIf($3, $5, NULL);}
 
-elseBlock               : ELSE block      { $$ = $2;}
-                        | ELSE statement               { $$ = $2;}
+elseBlock               : ELSE block        { $$ = $2;}
+                        | ELSE statement    { $$ = $2;}
  
-whileBlock              : WHILE '(' condition ')' '{' statement '}' { $$ = createWhile($3, $6);}
-
+whileBlock              : WHILE '(' condition ')'  block            { $$ = createWhile($3, $5);}
 statements              : statements statement      { $$ = $1;
                                                       $$->push_back($2);}
                         | statement                 { $$ = new vector<astNode*>();
                                                       $$->push_back($1);}
 
 statement               : VARID '=' expression ';'     { astNode* stmt_ptr = createVar($1);
-                                                      $$ = createAsgn(stmt_ptr, $3);}
-                        | VARID '=' READ '(' ')' ';'    { $$ = createCall("read");}
+                                                      $$ = createAsgn(stmt_ptr, $3); free($1);}
+                        | VARID '=' READ '(' ')' ';'    { $$ = createCall("read"); free($1);}
                         | PRINT '(' term ')' ';'       { $$ = createCall("print", $3);}  
                         | ifBlock                   { $$ = $1;}
                         | whileBlock                { $$ = $1;}
@@ -84,8 +83,8 @@ declarations            : declarations declaration      { $$ = $1;
                         | declaration                   { $$ = new vector<astNode*>();
                                                           $$->push_back($1);}
 
-declaration             : INT VARID ';'     { $$ = createDecl($2);}
-                        | CHAR VARID ';'    { $$ = createDecl($2);}
+declaration             : INT VARID ';'     { $$ = createDecl($2); free($2);}
+                        | CHAR VARID ';'    { $$ = createDecl($2); free($2);}
 
                       
 expression              : term '+' term     { $$ = createBExpr($1, $3, add);}
@@ -95,7 +94,7 @@ expression              : term '+' term     { $$ = createBExpr($1, $3, add);}
                         | term              { $$ = $1;}
 
 term                    : NUMBER    { $$ = createCnst($1);}
-                        | VARID     { $$ = createVar($1);}
+                        | VARID     { $$ = createVar($1); free($1);}
                         | '-' term {$$ = createUExpr($2, uminus);}
 
 return                  : RETURN '(' expression ')' ';' { $$ = createRet($3);}
