@@ -1,3 +1,9 @@
+/**
+ * @author Abdibaset Bare
+ * @create date 2024-04-12 17:22:44
+ * @modify date 2024-04-18 16:50:48
+ * @desc - this file checks the correctness of the ast tree built 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "../utils/ast.h"
