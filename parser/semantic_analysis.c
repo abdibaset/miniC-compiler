@@ -221,7 +221,6 @@ int main(int argc, char** argv) {
 
     yyparse();
     astNode *node = root;
-    // printNode(node);
     traverse_tree(node, false);
     freeNode(root);
     fclose(yyin);
