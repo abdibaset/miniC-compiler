@@ -116,6 +116,11 @@ int isVariableDeclared(astNode *node){
     return 0;
 }
 
+/**
+ * @details helper function to traverse all astNodes in a block statement
+ * 
+ * @param statement - block statement with a statement list to be traversed 
+*/
 void traverse_all_statements_in_block(astStmt *statement){
     vector<astNode*> statementList = *(statement->block.stmt_list);
     for (auto node=statementList.begin(); node != statementList.end(); ++node){
