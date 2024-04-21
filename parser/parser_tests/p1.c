@@ -6,7 +6,7 @@ int func(int i){
 	int b;
 	a = 5;
 	b = 2;
-	
+
 	if (a < i){
 		while (b < i){
 			b = b + 20;
@@ -14,9 +14,9 @@ int func(int i){
 		a = 10 + b;
 	}
 	else {
-		if (b < i) 
+		if (b < i)
 			b = a;
 	}
-	
+
 	return 1;
 }
