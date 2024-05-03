@@ -23,7 +23,7 @@ astNode* root;
     vector <astNode*> *astvec_ptr;
 }
 
-%token IF ELSE WHILE INT CHAR RETURN VOID EXTERN PRINT READ
+%token IF ELSE WHILE INT RETURN VOID EXTERN PRINT READ
 %token <varname> VARID
 %token <numval> NUMBER
 %type <astvec_ptr> statements declarations

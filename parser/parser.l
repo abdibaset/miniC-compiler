@@ -11,7 +11,6 @@ if                          { return IF; }
 else                        { return ELSE;}
 while                       { return WHILE; }
 int                         { return INT; }
-char                        { return CHAR; }
 return                      { return RETURN;}
 void                        { return VOID;}
 extern                      { return EXTERN; }
@@ -25,7 +24,7 @@ read                        { return READ;}
 [0-9]+                      { yylval.numval = atoi(yytext);
                               return NUMBER;}
 
-:                           { return yytext[0];} 
+:                           { return yytext[0];}
 [ \n\t]
 .                           { return yytext[0];}
 %%
