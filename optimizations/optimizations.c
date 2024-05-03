@@ -28,9 +28,7 @@ void doGlobalOptimizationWithConstantFolding(LLVMModuleRef module)
 
         // do constant folding
         walkFunctionsForConstantFolding(module);
-        // exit(1);
         hasModuleChanged = walkFunctionsForGlobalOptimizations(module);
-        printf(" has changed %s\n", hasModuleChanged ? "true" : "false");
         walkFunctionsForConstantFolding(module);
     }
 }
@@ -42,7 +40,6 @@ void doLocalOptimizations(LLVMModuleRef module)
 
     // do constant folding
     walkFunctionsForConstantFolding(module);
-    LLVMDumpModule(module);
 }
 
 std::string getOptimizedFilename(const std::string &filename)
@@ -87,7 +84,7 @@ int main(int argc, char **argv)
 
         if (strcmp(cleanPath.c_str(), "./opt_tests/p2_common_subexpr.ll") == 0 || strncmp(cleanPath.c_str(), "./opt_tests/cfold_", strlen("./opt_tests/cfold_")) == 0)
         {
-            doLocalOptimizations(moduleReference);
+            doLocalOptimizations(moduleReference); 
         }
         else
         {

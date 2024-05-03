@@ -6,3 +6,4 @@ y.tab.c
 y.output
 *.log
 ./parser/._p1.c
+optimizations

@@ -1,5 +1,5 @@
-; ModuleID = './opt_tests/cfold_ops.c'
-source_filename = "./opt_tests/cfold_ops.c"
+; ModuleID = 'p1_cfold.c'
+source_filename = "p1_cfold.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
@@ -15,7 +15,7 @@ define dso_local i32 @func(i32 noundef %0) #0 {
   store i32 20, ptr %4, align 4
   %7 = load i32, ptr %3, align 4
   %8 = load i32, ptr %4, align 4
-  %9 = add nsw i32 %7, %8
+  %9 = add nsw i32 10, 20
   store i32 %9, ptr %6, align 4
   %10 = load i32, ptr %6, align 4
   ret i32 %10
