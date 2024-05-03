@@ -50,7 +50,7 @@ std::string getOptimizedFilename(const std::string &filename)
     std::filesystem::path filePath(filename);
     std::string basename = filePath.stem().string();
 
-    basename += "_optimized";
+    basename += "_optimized.ll";
 
     printf("filename %s\n", basename.c_str());
     return basename;
