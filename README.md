@@ -19,6 +19,7 @@
     <p> The programs are organized as follows:
     <div>
         <ul>
+            <li>optimizations utils file that contain utility function not necessary related to other modules
             <li>Common Subexpression and Dead code are implemenated in the same module under the utils folder
             <li>Constant folding module in utils folder
             <li>Constant propagation in its own module in utils folder
