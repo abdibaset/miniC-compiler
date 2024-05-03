@@ -15,7 +15,7 @@
 </section>
 
 <section>
-    <h1>Part3: Optimizations of LLVM modules
+    <h1>Part3: Optimizations of LLVM modules </h1>
     <p> The programs are organized as follows:
     <div>
         <ul>
