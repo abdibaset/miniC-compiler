@@ -1,6 +1,6 @@
 # variable definitions
 CCFLAGS=-Wall -pedantic -std=c++11 -I. -g
-OFILES=ast.o
+OFILES=ast.o semantic_analysis.o
 
 # static library
 all:	$(OFILES)

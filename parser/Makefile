@@ -5,10 +5,10 @@ filename=parser
 
 all:	$(filename).out
 
-$(filename).out:	$(filename).l $(filename).y semantic_analysis.c
+$(filename).out:	$(filename).l $(filename).y parser.c
 					yacc -d -v --debug -Wcounterexample $(filename).y
 					lex $(filename).l
-					g++ $(CCFLAGS) -o $(filename).out lex.yy.c y.tab.c semantic_analysis.c $(LIB)
+					g++ $(CCFLAGS) -o $(filename).out lex.yy.c y.tab.c parser.c $(LIB)
 
 
 clean:
