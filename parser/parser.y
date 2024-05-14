@@ -7,7 +7,7 @@
 %{
 #include <stdio.h>
 #include <iostream>
-#include "../utils/ast.h"
+#include "./utils/ast.h"
 #include <vector>
 using namespace std;
 extern int yylex();
@@ -34,7 +34,7 @@ astNode* root;
 
 %%
 program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3);
-                                                                root = $$;}
+                                                                root = $$; printNode(root);}
 externFunc              : EXTERN INT READ '(' ')' ';'       {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 
@@ -92,6 +92,7 @@ expression              : term '+' term     { $$ = createBExpr($1, $3, add);}
                         | term '*' term     { $$ = createBExpr($1, $3, mul);}
                         | term '/' term     { $$ = createBExpr($1, $3, divide);}
                         | term              { $$ = $1;}
+            
 
 term                    : NUMBER    { $$ = createCnst($1);}
                         | VARID     { $$ = createVar($1); free($1);}

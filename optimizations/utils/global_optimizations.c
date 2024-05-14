@@ -1,5 +1,5 @@
 #include "optimizations_utils.h"
-#include "global_optimizations.h"
+#include "optimizations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <llvm-c/Core.h>

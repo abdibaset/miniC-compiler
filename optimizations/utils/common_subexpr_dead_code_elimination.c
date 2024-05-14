@@ -1,6 +1,6 @@
 
 #include "optimizations_utils.h"
-#include "common_subexpr_dead_code_elimination.h"
+#include "optimizations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <llvm-c/Core.h>

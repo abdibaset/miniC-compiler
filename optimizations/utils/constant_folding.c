@@ -1,5 +1,5 @@
 #include "optimizations_utils.h"
-#include "constant_folding.h"
+#include "optimizations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <llvm-c/Core.h>
