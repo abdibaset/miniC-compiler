@@ -103,18 +103,3 @@ int yyerror(const char *message){
     fprintf(stderr, "%s\n", message);
     return 1;
 }
-
-/* astNode *create_ast_tree(const char *filename)
-{
-    yyin = fopen(filename, "r");
-    if (yyin == NULL)
-    {
-        fprintf(stderr, "Error reading file\n");
-        return NULL;
-    }
-
-    yyparse();
-    fclose(yyin);
-    yylex_destroy();
-    return root;
-} */
