@@ -35,7 +35,6 @@
             <li>Constant folding module in utils folder
             <li>Constant propagation in its own module in utils folder
         </ul>
-        <p> <code style="font-family: Courier; background-color: #f4f4f4; padding: 0.2em 0.4em; border-radius: 0.3em;"> optimizations.c </code> file utilizes the modules listed above to analyze a file<br>
-        <p> The modules listed are compiled and archived in the lib as <code style="font-family: Courier; background-color: #f4f4f4; padding: 0.2em 0.4em; border-radius: 0.3em;"> libopt.a </code> <br>
+        <p> The modules listed are compiled and archived in the lib as <code>libopt.a </code> <br>
     </div>
 </section>
