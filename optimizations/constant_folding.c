@@ -62,7 +62,7 @@ void walkInstructionsForConstantFolding(LLVMBasicBlockRef basicBlock)
     }
 }
 
-void walkBasicblocksForConstantFolding(LLVMValueRef function)
+void walkBasicblocksForConstantFoldingAndDeadCodeElimination(LLVMValueRef function)
 {
 
     for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function);
@@ -78,12 +78,12 @@ void walkBasicblocksForConstantFolding(LLVMValueRef function)
     }
 }
 
-void walkFunctionsForConstantFolding(LLVMModuleRef module)
+void walkFunctionsForConstantFoldingAndDeadCodeElimination(LLVMModuleRef module)
 {
     for (LLVMValueRef function = LLVMGetFirstFunction(module);
          function;
          function = LLVMGetNextFunction(function))
     {
-        walkBasicblocksForConstantFolding(function);
+        walkBasicblocksForConstantFoldingAndDeadCodeElimination(function);
     }
 }

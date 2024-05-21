@@ -35,12 +35,12 @@ void doGlobalOptimizationWithConstantFolding(LLVMModuleRef module)
 
     while (hasModuleChanged)
     {
-        walkFunctionsForCommonSubExprAndDeadCode(module);
+        walkFunctionsForCommonSubExprAndDeadCodeElimination(module);
 
         // do constant folding
-        walkFunctionsForConstantFolding(module);
+        walkFunctionsForConstantFoldingAndDeadCodeElimination(module);
         hasModuleChanged = walkFunctionsForGlobalOptimizations(module);
-        walkFunctionsForConstantFolding(module);
+        walkFunctionsForConstantFoldingAndDeadCodeElimination(module);
     }
 }
 

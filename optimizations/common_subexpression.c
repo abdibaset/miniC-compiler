@@ -69,7 +69,6 @@ bool isSamiliarInstruction(LLVMValueRef instruction)
     return false;
 }
 
-
 void walkBBInstructionsForCommonSubExpression(LLVMBasicBlockRef basicBlock)
 {
 
@@ -94,7 +93,7 @@ void walkBBInstructionsForCommonSubExpression(LLVMBasicBlockRef basicBlock)
     }
 }
 
-void walkBasicblocksForCommonSubExprAndDeadCode(LLVMValueRef function)
+void walkBasicblocksForCommonSubExprAndDeadCodeElimination(LLVMValueRef function)
 {
     HAS_REPLACED = true;
     while (HAS_REPLACED)
@@ -108,13 +107,13 @@ void walkBasicblocksForCommonSubExprAndDeadCode(LLVMValueRef function)
     }
 }
 
-void walkFunctionsForCommonSubExprAndDeadCode(LLVMModuleRef module)
+void walkFunctionsForCommonSubExprAndDeadCodeElimination(LLVMModuleRef module)
 {
     for (LLVMValueRef function = LLVMGetFirstFunction(module);
          function;
          function = LLVMGetNextFunction(function))
     {
-        walkBasicblocksForCommonSubExprAndDeadCode(function);
+        walkBasicblocksForCommonSubExprAndDeadCodeElimination(function);
     }
     INSTRUCTIONS_STORE.clear();
 }

@@ -7,14 +7,14 @@
  * @param basicBlock - steps through the instructions in basic blocks
  * */
 
-void walkFunctionsForCommonSubExprAndDeadCode(LLVMModuleRef module);
+void walkFunctionsForCommonSubExprAndDeadCodeElimination(LLVMModuleRef module);
 
 /**
  * @details walks through the functions in the module to check for constant folding
  *
  * @param moduleReference
  */
-void walkFunctionsForConstantFolding(LLVMModuleRef moduleReference);
+void walkFunctionsForConstantFoldingAndDeadCodeElimination(LLVMModuleRef moduleReference);
 
 /**
  * @details steps through the basicBlocks in a function
