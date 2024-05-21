@@ -14,13 +14,14 @@
 #include <cstring>
 using namespace std;
 
+bool HAS_CHANGED = false;
+
 void walkInstructionsForConstantFolding(LLVMBasicBlockRef basicBlock)
 {
     vector<LLVMValueRef> operands;
     LLVMValueRef constValRef = NULL;
-    LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock);
-
-    while (instruction)
+    for (LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock); instruction;
+         instruction = LLVMGetNextInstruction(instruction))
     {
         LLVMOpcode opcode = getOpcode(instruction);
         switch (opcode)
@@ -31,15 +32,7 @@ void walkInstructionsForConstantFolding(LLVMBasicBlockRef basicBlock)
             {
                 constValRef = LLVMConstAdd(operands[0], operands[1]);
                 LLVMReplaceAllUsesWith(instruction, constValRef);
-
-                // save the next instructions before removing from parent
-                LLVMValueRef nextInstruction = LLVMGetNextInstruction(instruction);
-                LLVMInstructionEraseFromParent(instruction);
-                instruction = nextInstruction;
-            }
-            else
-            {
-                instruction = LLVMGetNextInstruction(instruction);
+                HAS_CHANGED = true;
             }
             break;
 
@@ -49,15 +42,7 @@ void walkInstructionsForConstantFolding(LLVMBasicBlockRef basicBlock)
             {
                 constValRef = LLVMConstSub(operands[0], operands[1]);
                 LLVMReplaceAllUsesWith(instruction, constValRef);
-
-                // save the next instructions before removing from parent
-                LLVMValueRef nextInstruction = LLVMGetNextInstruction(instruction);
-                LLVMInstructionEraseFromParent(instruction);
-                instruction = nextInstruction;
-            }
-            else
-            {
-                instruction = LLVMGetNextInstruction(instruction);
+                HAS_CHANGED = true;
             }
             break;
 
@@ -67,18 +52,11 @@ void walkInstructionsForConstantFolding(LLVMBasicBlockRef basicBlock)
             {
                 constValRef = LLVMConstMul(operands[0], operands[1]);
                 LLVMReplaceAllUsesWith(instruction, constValRef);
-                LLVMValueRef nextInstruction = LLVMGetNextInstruction(instruction);
-                LLVMInstructionEraseFromParent(instruction);
-                instruction = nextInstruction;
-            }
-            else
-            {
-                instruction = LLVMGetNextInstruction(instruction);
+                HAS_CHANGED = true;
             }
             break;
 
         default:
-            instruction = LLVMGetNextInstruction(instruction);
             break;
         }
     }
@@ -91,7 +69,12 @@ void walkBasicblocksForConstantFolding(LLVMValueRef function)
          basicBlock;
          basicBlock = LLVMGetNextBasicBlock(basicBlock))
     {
+
         walkInstructionsForConstantFolding(basicBlock);
+        if (HAS_CHANGED)
+        {
+            walkBBInstructionsForDeadCodeElimination(basicBlock);
+        }
     }
 }
 

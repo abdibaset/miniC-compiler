@@ -164,3 +164,31 @@ map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(LLVMValueRef
 
     return blockToInstructionsMap;
 }
+
+void walkBBInstructionsForDeadCodeElimination(LLVMBasicBlockRef basicBlock)
+{
+    LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock);
+    LLVMValueRef nextInstruction = NULL;
+    while (instruction != NULL)
+    {
+        LLVMOpcode opcode = getOpcode(instruction);
+        if (opcode != LLVMStore && opcode != LLVMRet && opcode != LLVMAlloca && opcode != LLVMCall)
+        {
+            LLVMUseRef use = LLVMGetFirstUse(instruction);
+            if (use == NULL && LLVMIsATerminatorInst(instruction) == NULL)
+            {
+                nextInstruction = LLVMGetNextInstruction(instruction);
+                LLVMInstructionEraseFromParent(instruction);
+            }
+        }
+        if (nextInstruction != NULL)
+        {
+            instruction = nextInstruction;
+            nextInstruction = NULL;
+        }
+        else
+        {
+            instruction = LLVMGetNextInstruction(instruction);
+        }
+    }
+}

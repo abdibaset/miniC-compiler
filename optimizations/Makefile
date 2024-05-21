@@ -5,7 +5,7 @@ LLVMFLAGS=`llvm-config-15 --cxxflags --ldflags --libs core`
 
 # Library file names
 HEADER_FILE=optimizations
-COMMON_DEADCODE=common_subexpr_dead_code_elimination
+COMMON_DEADCODE=common_subexpression
 CONST_FOLDING=constant_folding
 GLOBAL_OPTIMIZATIONS=global_optimizations
 OPT_UTILS=optimizations_utils

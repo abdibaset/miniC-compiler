@@ -98,4 +98,11 @@ map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(LLVMValueRef fun
  */
 map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(LLVMValueRef function);
 
+/**
+ * @details dead code elimination util function for both constant folding and common subexpression. removes instructions from parent module
+ *
+ * @param basicBlock
+ */
+void walkBBInstructionsForDeadCodeElimination(LLVMBasicBlockRef basicBlock);
+
 #endif // OPTIMIZATIONS_UTILS_H
