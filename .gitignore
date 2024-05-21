@@ -7,3 +7,4 @@ y.output
 *.log
 ./parser/._p1.c
 stack.hh
+miniC_compiler
