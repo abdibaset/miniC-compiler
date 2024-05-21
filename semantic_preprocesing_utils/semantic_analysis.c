@@ -5,7 +5,7 @@
  * @desc - this file checks the correctness of the ast tree built
  */
 
-#include "ast.h"
+#include "../ast/ast.h"
 #include "semantic_analysis.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -222,7 +222,7 @@ void traverse_tree(astNode *node, bool isFunction)
  * @param root - root of the ast tree
  *
  * @return false - if not successful, true otherwise
-*/
+ */
 
 bool is_semantically_correct(astNode *root)
 {

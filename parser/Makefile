@@ -1,15 +1,23 @@
-CCFLAGS = -Wall -pedantic -Wno-unused-function -std=c++11 -I. -g
-# static library libutils
+CCFLAGS = -Wall -pedantic -Wno-unused-function -std=c++17 -I. -g
 LIB=-L../lib/ -last
-filename=parser
+filename = parser
+OFILES=y.tab.o lex.yy.o
 
-all:	$(filename).out
+all:	libparser.a
 
-$(filename).out:	$(filename).l $(filename).y parser.c
-					yacc -d -v --debug -Wcounterexample $(filename).y
-					lex $(filename).l
-					g++ $(CCFLAGS) -o $(filename).out lex.yy.c y.tab.c parser.c $(LIB)
+libparser.a:	$(OFILES)
+	ar cr ../lib/libparser.a $(OFILES)
 
+lex.yy.o:	$(filename).l $(filename).y
+	yacc -d -v --debug -Wcounterexample $(filename).y
+	lex $(filename).l
+	g++ $(CCFLAGS) -c -o lex.yy.o lex.yy.c $(LIB)
+
+y.tab.o:	$(filename).y $(filename).h
+	g++ $(CCFLAGS) -c -o y.tab.o y.tab.c $(LIB)
+
+$(filename).h:	$(filename).y
+	yacc -d $(filename).y
 
 clean:
-		rm -rf lex.yy.c y.tab.c y.tab.h $(filename).out y.output
+	rm -rf lex.yy.c y.tab.c y.tab.h $(OFILES) ../lib/libparser.a y.output

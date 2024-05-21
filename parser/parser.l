@@ -1,7 +1,7 @@
 /*parser lex file to identify tokens in a c program */
 %{
 #include<stdio.h>
-#include "./utils/ast.h"
+#include "../ast/ast.h"
 #include "y.tab.h"
 extern int yyerror(char *);
 %}

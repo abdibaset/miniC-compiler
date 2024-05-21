@@ -1,19 +1,15 @@
-/**
- * @author Abdibaset Bare
- * @create date 2024-04-12 17:22:44
- * @modify date 2024-04-18 16:50:48
- * @desc - this file defines the grammar rules for a given c program
- */
 %{
 #include <stdio.h>
 #include <iostream>
-#include "./utils/ast.h"
+#include "../ast/ast.h"
 #include <vector>
 using namespace std;
 extern int yylex();
 extern int yylex_destroy();
 int yyerror(const char*);
+extern FILE *yyin;
 astNode* root;
+
 %}
 
 %union {
@@ -34,7 +30,7 @@ astNode* root;
 
 %%
 program                 : externFunc externFunc function    { $$ = createProg($1, $2, $3);
-                                                                root = $$; printNode(root);}
+                                                                root = $$;}
 externFunc              : EXTERN INT READ '(' ')' ';'       {$$ = createExtern("read");}
                         | EXTERN VOID PRINT '(' INT ')' ';' {$$ = createExtern("print");}
 
@@ -71,7 +67,6 @@ statements              : statements statement      { $$ = $1;
 
 statement               : VARID '=' expression ';'     { astNode* stmt_ptr = createVar($1);
                                                       $$ = createAsgn(stmt_ptr, $3); free($1);}
-                        | VARID '=' READ '(' ')' ';'    { $$ = createCall("read"); free($1);}
                         | PRINT '(' term ')' ';'       { $$ = createCall("print", $3);}
                         | ifBlock                   { $$ = $1;}
                         | whileBlock                { $$ = $1;}
@@ -92,7 +87,8 @@ expression              : term '+' term     { $$ = createBExpr($1, $3, add);}
                         | term '*' term     { $$ = createBExpr($1, $3, mul);}
                         | term '/' term     { $$ = createBExpr($1, $3, divide);}
                         | term              { $$ = $1;}
-            
+                        | READ '(' ')' { $$ = createCall("read");}
+
 
 term                    : NUMBER    { $$ = createCnst($1);}
                         | VARID     { $$ = createVar($1); free($1);}
@@ -107,3 +103,18 @@ int yyerror(const char *message){
     fprintf(stderr, "%s\n", message);
     return 1;
 }
+
+/* astNode *create_ast_tree(const char *filename)
+{
+    yyin = fopen(filename, "r");
+    if (yyin == NULL)
+    {
+        fprintf(stderr, "Error reading file\n");
+        return NULL;
+    }
+
+    yyparse();
+    fclose(yyin);
+    yylex_destroy();
+    return root;
+} */

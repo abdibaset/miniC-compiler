@@ -1,31 +1,34 @@
-CCFLAGS=-Wall -pedantic -Wno-unused-function -std=c++17 -g
+
+CCFLAGS=-Wall -pedantic -Wno-unused-function -std=c++17 -lstdc++fs -g
 LLVMPATH=/usr/include/llvm-c-15/
 LLVMFLAGS=`llvm-config-15 --cxxflags --ldflags --libs core`
-LOCALLLVMCODE=optimizations
 
-COMMONSUBEXPR_TEST=./opt_tests/p2_common_subexpr
-GLOBALOPT_P3_TEST=./opt_tests/p3_const_prop
-GLOBALOPT_P4_TEST=./opt_tests/p4_const_prop
-GLOBALOPT_P5_TEST=./opt_tests/p5_const_prop
-LIB=-L../lib/ -lopt
+# Library file names
+HEADER_FILE=optimizations
+COMMON_DEADCODE=common_subexpr_dead_code_elimination
+CONST_FOLDING=constant_folding
+GLOBAL_OPTIMIZATIONS=global_optimizations
+OPT_UTILS=optimizations_utils
 
-all: $(LOCALLLVMCODE) common_subexpr_llvm_file global_opt_p3_llvm_file global_opt_p4_llvm_file global_opt_p5_llvm_file
+OFILES = $(COMMON_DEADCODE).o $(CONST_FOLDING).o $(GLOBAL_OPTIMIZATIONS).o $(OPT_UTILS).o
 
-$(LOCALLLVMCODE): $(LOCALLLVMCODE).c
-	g++ $(CCFLAGS) -I$(LLVMPATH) -c $(LOCALLLVMCODE).c
-	g++ $(LOCALLLVMCODE).o $(LLVMFLAGS) -I $(LLVMPATH) -o $@ $(LIB)
+all: opt_lib.a
 
-common_subexpr_llvm_file: $(COMMONSUBEXPR_TEST).c
-	clang -S -emit-llvm $(COMMONSUBEXPR_TEST).c -o $(COMMONSUBEXPR_TEST).ll
+# Static library definition
+opt_lib.a: $(OFILES)
+	ar cr ../lib/libopt.a $(OFILES)
 
-global_opt_p3_llvm_file: $(GLOBALOPT_P3_TEST).c
-	clang -S -emit-llvm $(GLOBALOPT_P3_TEST).c -o $(GLOBALOPT_P3_TEST).ll
+$(COMMON_DEADCODE).o: $(COMMON_DEADCODE).c $(HEADER_FILE).h $(OPT_UTILS).o
+	g++ $(CCFLAGS) -I$(LLVMPATH) -c -o $@ $< $(LLVMFLAGS)
 
-global_opt_p4_llvm_file: $(GLOBALOPT_P4_TEST).c
-	clang -S -emit-llvm $(GLOBALOPT_P4_TEST).c -o $(GLOBALOPT_P4_TEST).ll
+$(CONST_FOLDING).o: $(CONST_FOLDING).c $(HEADER_FILE).h $(OPT_UTILS).o
+	g++ $(CCFLAGS) -I$(LLVMPATH) -c -o $@ $< $(LLVMFLAGS)
 
-global_opt_p5_llvm_file: $(GLOBALOPT_P5_TEST).c
-	clang -S -emit-llvm $(GLOBALOPT_P5_TEST).c -o $(GLOBALOPT_P5_TEST).ll
+$(GLOBAL_OPTIMIZATIONS).o: $(GLOBAL_OPTIMIZATIONS).c $(HEADER_FILE).h $(OPT_UTILS).o
+	g++ $(CCFLAGS) -I$(LLVMPATH) -c -o $@ $< $(LLVMFLAGS)
+
+$(OPT_UTILS).o: $(OPT_UTILS).c $(OPT_UTILS).h
+	g++ $(CCFLAGS) -I$(LLVMPATH) -c -o $@ $< $(LLVMFLAGS)
 
 clean:
-	rm -rf *.o *.out $(COMMONSUBEXPR_TEST).ll $(GLOBALOPT_P3_TEST).ll $(GLOBALOPT_P4_TEST).ll $(GLOBALOPT_P5_TEST).ll
+		rm -rf *.o ../lib/libopt.a
