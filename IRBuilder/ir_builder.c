@@ -219,22 +219,16 @@ LLVMValueRef compare_lhs_rhs(rop_type operation, LLVMValueRef LHSLoad, LLVMValue
     {
     case lt:
         return LLVMBuildICmp(BUILDER, LLVMIntSLT, LHSLoad, RHSLoad, "");
-        break;
     case gt:
-        return LLVMBuildICmp(BUILDER, LLVMIntSGE, LHSLoad, RHSLoad, "");
-        break;
+        return LLVMBuildICmp(BUILDER, LLVMIntSGT, LHSLoad, RHSLoad, "");
     case le:
         return LLVMBuildICmp(BUILDER, LLVMIntSLE, LHSLoad, RHSLoad, "");
-        break;
     case ge:
         return LLVMBuildICmp(BUILDER, LLVMIntSGE, LHSLoad, RHSLoad, "");
-        break;
     case eq:
         return LLVMBuildICmp(BUILDER, LLVMIntEQ, LHSLoad, RHSLoad, "");
-        break;
     case neq:
         return LLVMBuildICmp(BUILDER, LLVMIntNE, LHSLoad, RHSLoad, "");
-        break;
     default:
         break;
     }
@@ -247,23 +241,18 @@ LLVMValueRef create_binary_op(op_type operation, LLVMValueRef LHSLoad, LLVMValue
     {
     case add:
         return LLVMBuildAdd(BUILDER, LHSLoad, RHSLoad, "");
-        break;
     case sub:
         return LLVMBuildSub(BUILDER, LHSLoad, RHSLoad, "");
-        break;
     case mul:
         return LLVMBuildMul(BUILDER, LHSLoad, RHSLoad, "");
-        break;
     case divide:
         return LLVMBuildUDiv(BUILDER, LHSLoad, RHSLoad, "");
-        break;
     case uminus:
     {
         unsigned long long value = 0;
         LLVMValueRef constValue = LLVMConstInt(LLVMInt32Type(), value, 1);
         return LLVMBuildSub(BUILDER, constValue, RHSLoad, "");
     }
-    break;
     default:
         break;
     }

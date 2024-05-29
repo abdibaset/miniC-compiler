@@ -5,6 +5,7 @@
 #include "./semantic_preprocesing_utils/semantic_analysis.h"
 #include "./semantic_preprocesing_utils/pre_processing.h"
 #include "./IRBuilder/ir_builder.h"
+#include "./CodeGen/register_allocation.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,9 +77,9 @@ int main(int argc, char **argv)
     astNode *modifiedTree = rename_variables_in_ast_tree(node);
     LLVMModuleRef moduleReference = build_ir(modifiedTree, argv[1]);
 
-    LLVMDumpModule(moduleReference);
+    // LLVMDumpModule(moduleReference);
     // exit(1);
-    printf("Before optimization on module\n");
+    // printf("Before optimization on module\n");
     assert(moduleReference != NULL);
 
     // optimizations
@@ -86,6 +87,8 @@ int main(int argc, char **argv)
     printf("optimizated module\n");
 
     LLVMDumpModule(moduleReference);
+    printf("FILENAME %s\n", argv[1]);
+    generate_assembly_code(argv[1], moduleReference);
     // clean and free memory
     fclose(yyin);
     yylex_destroy();

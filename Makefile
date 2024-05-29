@@ -8,12 +8,12 @@ OPTLIB=-L./lib/ -lopt
 SEMANTICLIB=-L./lib/ -lsemantic
 PARSERLIB=-L./lib/ -lparser
 IRBUILDLIB=-L./lib -lIRBuilder
-
+CODEGENLIB=-L./lib -lcodegen
 all: $(filename)
 
 $(filename):	$(filename).c
 	g++ $(CCFLAGS) -I$(LLVMPATH) -c $<
-	g++ $(filename).o -I$(LLVMPATH) -o $@ $(PARSERLIB) $(ASTLIB) $(IRBUILDLIB) $(SEMANTICLIB) $(OPTLIB) -lstdc++fs $(LLVMFLAGS)
+	g++ $(filename).o -I$(LLVMPATH) -o $@ $(PARSERLIB) $(ASTLIB) $(IRBUILDLIB) $(SEMANTICLIB) $(CODEGENLIB) $(OPTLIB) -lstdc++fs $(LLVMFLAGS)
 
 clean:
 	rm -rf *.o $(filename)
