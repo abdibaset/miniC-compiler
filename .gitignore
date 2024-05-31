@@ -8,5 +8,3 @@ y.output
 ./parser/._p1.c
 stack.hh
 miniC_compiler
-my_p8.s
-p8.s

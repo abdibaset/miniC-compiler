@@ -14,6 +14,7 @@ map<LLVMValueRef, int> INST_INDEX_MAP;
 map<LLVMValueRef, int> INST_REG_MAP;
 const char *FILENAME;
 map<LLVMBasicBlockRef, string> BASICBLOCK_NAME_MAP;
+map<int, string> REG_NAME = {{1, "ebx"}, {2, "ecx"}, {3, "edx"}};
 int localMem;
 
 void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<int> &registers);
@@ -264,7 +265,7 @@ void gen_load_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
     if (INST_REG_MAP[instruction] != -1)
     {
         int operandOffsetVal = offsetMap[operand];
-        string directiveBuilder = "\tmovl\t" + to_string(operandOffsetVal) + "(%ebp),\t%exx\n";
+        string directiveBuilder = "\tmovl\t" + to_string(operandOffsetVal) + "(%ebp),\t%" + REG_NAME[INST_REG_MAP[instruction]] + "\n";
         print_directives(false, directiveBuilder.c_str());
     }
 }
@@ -285,7 +286,7 @@ void gen_return_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
     }
     else if (INST_REG_MAP[operands[0]] != -1)
     {
-        directive = "\tmovl\t%exx,\t%eax\n";
+        directive = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t%eax\n";
     }
     directive += "\tpopl\t%ebx\n";
     print_directives(false, directive.c_str());
@@ -309,7 +310,7 @@ void gen_store_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValue
         int offsetOfSecondOperand = offsetMap[operands[1]];
         if (INST_REG_MAP[operands[0]] != -1)
         {
-            directiveBuilder = "\tmovl\t%exx,\t" + to_string(offsetOfSecondOperand) + "(%ebp)\n";
+            directiveBuilder = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t" + to_string(offsetOfSecondOperand) + "(%ebp)\n";
             print_directives(false, directiveBuilder.c_str());
         }
         else
@@ -344,7 +345,7 @@ void gen_call_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
         {
             if (INST_REG_MAP[operands[0]] != -1)
             {
-                string directiveBuilder = "\tpushl\t%exx\n";
+                string directiveBuilder = "\tpushl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + "\n";
                 print_directives(false, directiveBuilder.c_str());
             }
             else if (INST_REG_MAP[operands[0]] == -1)
@@ -372,7 +373,7 @@ void gen_call_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
         // if it has a register
         if (INST_REG_MAP[instruction] != -1)
         {
-            directiveBuilder3 = "\tmovl\t%eax,\t%exx\n";
+            directiveBuilder3 = "\tmovl\t%eax,\t%" + REG_NAME[INST_REG_MAP[instruction]] + "\n ";
         }
         else
         {
@@ -461,7 +462,7 @@ void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
     string registerVal;
     if (INST_REG_MAP[instruction] != -1)
     {
-        registerVal = "%exx";
+        registerVal = REG_NAME[INST_REG_MAP[instruction]];
     }
     else
     {
@@ -480,9 +481,9 @@ void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
     }
     else
     {
-        if (INST_REG_MAP[operands[0]] != -1)
+        if (INST_REG_MAP[operands[0]] != -1 && strcmp(REG_NAME[INST_REG_MAP[operands[0]]].c_str(), registerVal.c_str()) != 0)
         {
-            firstOperandDirectiveBuilder = "\tmovl\t%eyy,\t" + registerVal + "\n";
+            firstOperandDirectiveBuilder = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t " + registerVal + "\n ";
         }
         else
         {
@@ -504,7 +505,7 @@ void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
     {
         if (INST_REG_MAP[operands[1]] != -1)
         {
-            secondOperandDirectiveBuilder = "\t" + arthimeticType + "\t%ezz,\t" + registerVal + "\n";
+            secondOperandDirectiveBuilder = "\t" + arthimeticType + "\t%" + REG_NAME[INST_REG_MAP[operands[1]]] + ",\t" + registerVal + "\n";
         }
         else
         {
@@ -530,7 +531,7 @@ void gen_compare_instruction_assembly_code(LLVMValueRef instruction, map<LLVMVal
     string registerVal;
     if (INST_REG_MAP[instruction] != -1)
     {
-        registerVal = "%exx";
+        registerVal = REG_NAME[INST_REG_MAP[instruction]];
     }
     else
     {
@@ -546,12 +547,10 @@ void gen_compare_instruction_assembly_code(LLVMValueRef instruction, map<LLVMVal
     }
     else
     {
-        if (INST_REG_MAP[operands[0]] != -1)
+        if (INST_REG_MAP[operands[0]] != -1 && strcmp(REG_NAME[INST_REG_MAP[operands[0]]].c_str(), registerVal.c_str()) != 0)
         {
-            if (strcmp("%eyy", registerVal.c_str()) == 0)
-            {
-                firstOperandDirective = "\tmovl\t%eyy,\t" + registerVal + "\n";
-            }
+
+            firstOperandDirective = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t " + registerVal + "\n ";
         }
         else
         {
@@ -570,7 +569,7 @@ void gen_compare_instruction_assembly_code(LLVMValueRef instruction, map<LLVMVal
     {
         if (INST_REG_MAP[operands[1]] != -1)
         {
-            secondOperandDirective = "\tcmpl\t%ezz,\t" + registerVal + "\n";
+            secondOperandDirective = "\tcmpl\t%" + REG_NAME[INST_REG_MAP[operands[1]]] + ",\t" + registerVal + "\n";
         }
         else
         {
@@ -738,7 +737,7 @@ string generateOutputFilename(const string &inputPath)
     std::string baseName = (lastDot == std::string::npos) ? filename : filename.substr(0, lastDot);
 
     // Append the new extension
-    std::string outputFilename = "my_" + baseName + ".s";
+    std::string outputFilename = baseName + ".s";
     return outputFilename;
 }
 

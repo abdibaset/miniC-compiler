@@ -68,10 +68,12 @@ void replaceValidLoadInstructionsOperandsWithConstant(set<LLVMValueRef> inSet, L
             }
         }
     }
-
-    LLVMValueRef constValue = LLVMConstInt(LLVMTypeOf(loadInstruction), LLVMConstIntGetSExtValue(constVal), false);
-    LLVMReplaceAllUsesWith(loadInstruction, constValue);
-    LOAD_INSTRUCTIONS_TO_REPLACE.push_back(loadInstruction);
+    if (constVal != NULL)
+    {
+        LLVMValueRef constValue = LLVMConstInt(LLVMTypeOf(loadInstruction), LLVMConstIntGetSExtValue(constVal), false);
+        LLVMReplaceAllUsesWith(loadInstruction, constValue);
+        LOAD_INSTRUCTIONS_TO_REPLACE.push_back(loadInstruction);
+    }
 }
 
 set<LLVMValueRef> removeKilledStoreInstruction(set<LLVMValueRef> inSet, LLVMValueRef currentStoreInstruction)
