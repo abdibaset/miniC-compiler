@@ -16,8 +16,14 @@ const char *FILENAME;
 map<LLVMBasicBlockRef, string> BASICBLOCK_NAME_MAP;
 map<int, string> REG_NAME = {{1, "ebx"}, {2, "ecx"}, {3, "edx"}};
 int localMem;
-
+LLVMValueRef PARAM;
 void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<int> &registers);
+
+string get_instruction_string(LLVMValueRef instruction)
+{
+    return "\t#" + string(LLVMPrintValueToString(instruction)) + "\n";
+    ;
+}
 
 bool isValidOpcodeForCode(LLVMValueRef instruction)
 {
@@ -85,8 +91,8 @@ void handle_binary_operation_instruction(LLVMValueRef currInstruction, vector<in
 
 void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<int> &registers)
 {
-    int highestRange = 0;
-    LLVMValueRef instructionWithHighestRange;
+    // Determine the range for all instructions; save as pairs for association
+    vector<pair<int, LLVMValueRef>> instructionRanges;
     for (const auto &keyValPair : INST_REG_MAP)
     {
         LLVMValueRef instInRegMap = keyValPair.first;
@@ -95,19 +101,21 @@ void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<in
             int firstUseIndex = CURRENT_LIVENESS_MAP[instInRegMap][0];
             int lastUseIndex = CURRENT_LIVENESS_MAP[instInRegMap].back();
             int range = lastUseIndex - firstUseIndex;
-            if (range > highestRange)
-            {
-                highestRange = range;
-                instructionWithHighestRange = instInRegMap;
-            }
+            instructionRanges.emplace_back(range, instInRegMap);
         }
     }
 
-    // check if currInstruction has lower highst
-    int currInstLivessRange = CURRENT_LIVENESS_MAP[currInstruction].back() - CURRENT_LIVENESS_MAP[currInstruction][0];
+    sort(instructionRanges.begin(), instructionRanges.end());
 
-    // assign instruction with lowest range's registet to currInstruction
-    if (currInstLivessRange < highestRange)
+    // Find the instruction with the highest range
+    LLVMValueRef instructionWithHighestRange = instructionRanges.back().second;
+    int highestRange = instructionRanges.back().first;
+
+    // Check if currInstruction has a lower liveness range than the highest
+    int currInstLivenessRange = CURRENT_LIVENESS_MAP[currInstruction].back() - CURRENT_LIVENESS_MAP[currInstruction][0];
+
+    // Assign the highest range instruction's register to currInstruction if its range is lower
+    if (currInstLivenessRange < highestRange)
     {
         INST_REG_MAP[currInstruction] = INST_REG_MAP[instructionWithHighestRange];
         INST_REG_MAP[instructionWithHighestRange] = -1;
@@ -117,7 +125,7 @@ void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<in
         INST_REG_MAP[currInstruction] = -1;
     }
 
-    // check if operands are live; if not deallocat registers
+    // Check if operands are live; if not, deallocate registers
     vector<LLVMValueRef> currInstOperands = getOperands(currInstruction);
 
     for (const auto &operand : currInstOperands)
@@ -125,7 +133,6 @@ void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<in
         if (!is_operand_live(currInstruction, operand))
         {
             registers.push_back(INST_REG_MAP[operand]);
-            INST_REG_MAP[operand] = 0;
         }
     }
 }
@@ -264,6 +271,7 @@ void gen_load_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
     LLVMValueRef operand = getOperands(instruction)[0];
     if (INST_REG_MAP[instruction] != -1)
     {
+        print_directives(false, get_instruction_string(instruction).c_str());
         int operandOffsetVal = offsetMap[operand];
         string directiveBuilder = "\tmovl\t" + to_string(operandOffsetVal) + "(%ebp),\t%" + REG_NAME[INST_REG_MAP[instruction]] + "\n";
         print_directives(false, directiveBuilder.c_str());
@@ -272,6 +280,7 @@ void gen_load_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
 
 void gen_return_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueRef, int> offsetMap)
 {
+    print_directives(false, get_instruction_string(instruction).c_str());
     vector<LLVMValueRef> operands = getOperands(instruction);
     string directive;
     if (LLVMIsConstant(operands[0]))
@@ -297,36 +306,41 @@ void gen_store_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValue
 {
     vector<LLVMValueRef> operands = getOperands(instruction);
     string directiveBuilder;
-    if (LLVMIsConstant(operands[0]))
+    if (operands[0] != PARAM)
     {
-        int secondOperandOffset = offsetMap[operands[1]];
-        long long constVal = LLVMConstIntGetSExtValue(operands[0]);
-        directiveBuilder = "\tmovl\t$" + to_string(constVal) + ",\t" + to_string(secondOperandOffset) + "(%ebp)\n";
-        print_directives(false, directiveBuilder.c_str());
-    }
-    else
-    {
-        //        if %a has a physical register %exx assigned to it:
-        int offsetOfSecondOperand = offsetMap[operands[1]];
-        if (INST_REG_MAP[operands[0]] != -1)
+        print_directives(false, get_instruction_string(instruction).c_str());
+        if (LLVMIsConstant(operands[0]))
         {
-            directiveBuilder = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t" + to_string(offsetOfSecondOperand) + "(%ebp)\n";
+            int secondOperandOffset = offsetMap[operands[1]];
+            long long constVal = LLVMConstIntGetSExtValue(operands[0]);
+            directiveBuilder = "\tmovl\t$" + to_string(constVal) + ",\t" + to_string(secondOperandOffset) + "(%ebp)\n";
             print_directives(false, directiveBuilder.c_str());
         }
         else
         {
-            int offsetOfFirstOperand = offsetMap[operands[0]];
-            string firstDirectiveBuilder = "\tmovl\t" + to_string(offsetOfFirstOperand) + ",\t%eax\n";
-            print_directives(false, firstDirectiveBuilder.c_str());
+            //        if %a has a physical register %exx assigned to it:
+            int offsetOfSecondOperand = offsetMap[operands[1]];
+            if (INST_REG_MAP[operands[0]] != -1)
+            {
+                directiveBuilder = "\tmovl\t%" + REG_NAME[INST_REG_MAP[operands[0]]] + ",\t" + to_string(offsetOfSecondOperand) + "(%ebp)\n";
+                print_directives(false, directiveBuilder.c_str());
+            }
+            else
+            {
+                int offsetOfFirstOperand = offsetMap[operands[0]];
+                string firstDirectiveBuilder = "\tmovl\t" + to_string(offsetOfFirstOperand) + ",\t%eax\n";
+                print_directives(false, firstDirectiveBuilder.c_str());
 
-            string secondDirectiveBuilder = "\tmovl\t%eax," + to_string(offsetOfSecondOperand) + "\t(%ebp)\n";
-            print_directives(false, secondDirectiveBuilder.c_str());
+                string secondDirectiveBuilder = "\tmovl\t%eax," + to_string(offsetOfSecondOperand) + "\t(%ebp)\n";
+                print_directives(false, secondDirectiveBuilder.c_str());
+            }
         }
     }
 }
 
 void gen_call_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueRef, int> offsetMap)
 {
+    print_directives(false, get_instruction_string(instruction).c_str());
     bool hasParam = false;
     string directiveBuilder = "\tpushl\t%ecx\n\tpushl\t%edx\n";
     print_directives(false, directiveBuilder.c_str());
@@ -387,6 +401,7 @@ void gen_call_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueR
 
 void gen_branch_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueRef, int> offsetMap)
 {
+    print_directives(false, get_instruction_string(instruction).c_str());
     // unconditional branch
     string directiveBuilder;
     if (!LLVMIsConditional(instruction))
@@ -459,6 +474,7 @@ string get_print_directive_arithmetic(LLVMOpcode opcode)
 
 void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueRef, int> offsetMap)
 {
+    print_directives(false, get_instruction_string(instruction).c_str());
     string registerVal;
     if (INST_REG_MAP[instruction] != -1)
     {
@@ -477,7 +493,7 @@ void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
     if (LLVMIsConstant(operands[0]))
     {
         long long constVal = LLVMConstIntGetSExtValue(operands[0]);
-        firstOperandDirectiveBuilder = "\t$" + to_string(constVal) + ",\t" + registerVal + "\n";
+        firstOperandDirectiveBuilder = "\tmovl$" + to_string(constVal) + ",\t" + registerVal + "\n";
     }
     else
     {
@@ -528,6 +544,7 @@ void gen_binary_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValu
 
 void gen_compare_instruction_assembly_code(LLVMValueRef instruction, map<LLVMValueRef, int> offsetMap)
 {
+    print_directives(false, get_instruction_string(instruction).c_str());
     string registerVal;
     if (INST_REG_MAP[instruction] != -1)
     {
@@ -642,6 +659,7 @@ void walk_functions_for_register_allocation_and_codegen(LLVMModuleRef moduleRefe
             string emitInstructions = "\tpushl\t%ebp\n\tmovl\t%esp,\t%ebp\n\tsubl\t$" + to_string(localMem - 4) + ",\t%esp\n\tpushl\t%ebx\n";
             string firstInstructions = (directives + emitInstructions).c_str();
             print_directives(true, firstInstructions.c_str());
+            PARAM = LLVMGetParam(function, 0);
         }
         walk_basic_blocks_for_register_allocation_and_codegen(function, offsetMap);
     }
@@ -649,7 +667,7 @@ void walk_functions_for_register_allocation_and_codegen(LLVMModuleRef moduleRefe
 
 void create_basic_block_labels(LLVMModuleRef moduleReference)
 {
-    int basicBlockNumber = 0;
+    int basicBlockNumber = 1;
     for (LLVMValueRef function = LLVMGetFirstFunction(moduleReference); function; function = LLVMGetNextFunction(function))
     {
         for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function); basicBlock; basicBlock = LLVMGetNextBasicBlock(basicBlock))
