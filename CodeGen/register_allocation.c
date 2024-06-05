@@ -21,8 +21,18 @@ void find_spill_and_reallocate_registers(LLVMValueRef currInstruction, vector<in
 
 string get_instruction_string(LLVMValueRef instruction)
 {
-    return "\t#" + string(LLVMPrintValueToString(instruction)) + "\n";
-    ;
+    char *llvm_str = LLVMPrintValueToString(instruction);
+    if (!llvm_str)
+    {
+        return "";
+    }
+
+    string result = "\t#" + string(llvm_str) + "\n";
+
+    // Free the memory allocated by LLVMPrintValueToString
+    LLVMDisposeMessage(llvm_str);
+
+    return result;
 }
 
 bool isValidOpcodeForCode(LLVMValueRef instruction)
