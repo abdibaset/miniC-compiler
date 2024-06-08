@@ -1,6 +1,5 @@
 <section>
-    <p>This project has pre-built binaries in form of libraries under lib directory, therefore, you may not need to <code>make</code> any of the folders to run the project</p><br>
-    <p>The following command will be useful to run the project:
+    <p>The following command will be useful to run the project from root:
         <ul>
             <li>cmd: <code>make all</code></li>
             <li>cmd: <code>./miniC_compiler Tests/<`filename`>.c</code></li>
