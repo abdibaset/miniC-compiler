@@ -1,8 +1,7 @@
 CCFLAGS=-Wall -pedantic -Wno-unused-function -std=c++17 -lstdc++fs -g
 LLVMPATH=/usr/include/llvm-c-15/
 LLVMFLAGS=`llvm-config-15 --cxxflags --ldflags --libs core`
-filename = register_allocation
-OPTLI=-L../lib -lopt
+filename = codegen
 
 all: code_gen_lib.a
 
