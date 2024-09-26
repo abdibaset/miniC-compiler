@@ -2,7 +2,8 @@
 #define OPTIMIZATIONS_H
 
 /**
- * @details steps through each instruction in a given basic block to examine for dead code elimination
+ * @details steps through each instruction in a given basic block to examine for
+ * dead code elimination
  *
  * @param basicBlock - steps through the instructions in basic blocks
  * */
@@ -10,11 +11,13 @@
 void walkFunctionsForCommonSubExprAndDeadCodeElimination(LLVMModuleRef module);
 
 /**
- * @details walks through the functions in the module to check for constant folding
+ * @details walks through the functions in the module to check for constant
+ * folding
  *
  * @param moduleReference
  */
-void walkFunctionsForConstantFoldingAndDeadCodeElimination(LLVMModuleRef moduleReference);
+void walkFunctionsForConstantFoldingAndDeadCodeElimination(
+    LLVMModuleRef moduleReference);
 
 /**
  * @details steps through the basicBlocks in a function
@@ -23,4 +26,4 @@ void walkFunctionsForConstantFoldingAndDeadCodeElimination(LLVMModuleRef moduleR
  */
 bool walkFunctionsForGlobalOptimizations(LLVMModuleRef moduleReference);
 
-#endif // OPTIMIZATIONS_H
+#endif  // OPTIMIZATIONS_H

@@ -36,10 +36,10 @@
    private implementation details that can be changed or removed.  */
 
 #ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+#define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 1
+#define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -47,27 +47,26 @@ extern int yydebug;
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
+#define YYTOKENTYPE
+enum yytokentype {
     YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    IF = 258,                      /* IF  */
-    ELSE = 259,                    /* ELSE  */
-    WHILE = 260,                   /* WHILE  */
-    INT = 261,                     /* INT  */
-    RETURN = 262,                  /* RETURN  */
-    VOID = 263,                    /* VOID  */
-    EXTERN = 264,                  /* EXTERN  */
-    PRINT = 265,                   /* PRINT  */
-    READ = 266,                    /* READ  */
-    VARID = 267,                   /* VARID  */
-    NUMBER = 268,                  /* NUMBER  */
-    REDUCE = 269                   /* REDUCE  */
-  };
-  typedef enum yytokentype yytoken_kind_t;
+    YYEOF = 0,     /* "end of file"  */
+    YYerror = 256, /* error  */
+    YYUNDEF = 257, /* "invalid token"  */
+    IF = 258,      /* IF  */
+    ELSE = 259,    /* ELSE  */
+    WHILE = 260,   /* WHILE  */
+    INT = 261,     /* INT  */
+    RETURN = 262,  /* RETURN  */
+    VOID = 263,    /* VOID  */
+    EXTERN = 264,  /* EXTERN  */
+    PRINT = 265,   /* PRINT  */
+    READ = 266,    /* READ  */
+    VARID = 267,   /* VARID  */
+    NUMBER = 268,  /* NUMBER  */
+    REDUCE = 269   /* REDUCE  */
+};
+typedef enum yytokentype yytoken_kind_t;
 #endif
 /* Token kinds.  */
 #define YYEMPTY -2
@@ -88,29 +87,24 @@ extern int yydebug;
 #define REDUCE 269
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
+#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
+union YYSTYPE {
 #line 15 "parser.y"
 
     astNode *node;
     char *varname;
     int numval;
-    vector <astNode*> *astvec_ptr;
+    vector<astNode *> *astvec_ptr;
 
 #line 102 "y.tab.h"
-
 };
 typedef union YYSTYPE YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+#define YYSTYPE_IS_TRIVIAL 1
+#define YYSTYPE_IS_DECLARED 1
 #endif
-
 
 extern YYSTYPE yylval;
 
-
-int yyparse (void);
-
+int yyparse(void);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

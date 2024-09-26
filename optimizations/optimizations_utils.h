@@ -2,24 +2,22 @@
 #define OPTIMIZATIONS_UTILS_H
 
 // #include "optimizations_utils.h"
-#include <map>
-#include <set>
-#include <stdio.h>
-#include <stdlib.h>
 #include <llvm-c/Core.h>
 #include <llvm-c/IRReader.h>
 #include <llvm-c/Types.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <algorithm>
-#include <vector>
 #include <cstring>
 #include <map>
 #include <set>
+#include <vector>
 
 using namespace std;
 
-typedef struct
-{
+typedef struct {
     LLVMValueRef instruction;
     LLVMOpcode opcode;
     vector<LLVMValueRef> operands;
@@ -54,7 +52,8 @@ InstructionProps createInstructionProps(LLVMValueRef instruction);
  *
  * @return a map of a block to its predecessors
  */
-map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> getPredcessorsMap(LLVMValueRef function);
+map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> getPredcessorsMap(
+    LLVMValueRef function);
 
 /**
  * @details compares all the operands of two instructions
@@ -83,11 +82,13 @@ bool isValidOpcode(LLVMValueRef instruction);
 void walkGlobalValues(LLVMModuleRef module);
 
 /**
- * @details maps memory to all the set of store instructions that write into that memory
+ * @details maps memory to all the set of store instructions that write into
+ * that memory
  *
  * @param function - function to step through to build the map
  */
-map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(LLVMValueRef function);
+map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(
+    LLVMValueRef function);
 
 /**
  * @details maps to all set of store instructions
@@ -96,13 +97,15 @@ map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(LLVMValueRef fun
  *
  * @return map of block to its store instructions
  */
-map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(LLVMValueRef function);
+map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(
+    LLVMValueRef function);
 
 /**
- * @details dead code elimination util function for both constant folding and common subexpression. removes instructions from parent module
+ * @details dead code elimination util function for both constant folding and
+ * common subexpression. removes instructions from parent module
  *
  * @param basicBlock
  */
 void walkBBInstructionsForDeadCodeElimination(LLVMBasicBlockRef basicBlock);
 
-#endif // OPTIMIZATIONS_UTILS_H
+#endif  // OPTIMIZATIONS_UTILS_H

@@ -1,26 +1,27 @@
-#include "./ast/ast.h"
-#include "./parser/y.tab.h"
-#include "./optimizations/optimizations_utils.h"
-#include "./optimizations/optimizations.h"
-#include "./semantic_preprocesing_utils/semantic_analysis.h"
-#include "./semantic_preprocesing_utils/pre_processing.h"
-#include "./IRBuilder/ir_builder.h"
-#include "./CodeGen/register_allocation.h"
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <llvm-c/Core.h>
 #include <llvm-c/IRReader.h>
 #include <llvm-c/Types.h>
 #include <stdbool.h>
-#include <unordered_map>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <algorithm>
+#include <cassert>
+#include <experimental/filesystem>
 #include <map>
 #include <set>
-#include <algorithm>
-#include <vector>
 #include <string>
-#include <experimental/filesystem>
-#include <cassert>
+#include <unordered_map>
+#include <vector>
+
+#include "./CodeGen/register_allocation.h"
+#include "./IRBuilder/ir_builder.h"
+#include "./ast/ast.h"
+#include "./optimizations/optimizations.h"
+#include "./optimizations/optimizations_utils.h"
+#include "./parser/y.tab.h"
+#include "./semantic_preprocesing_utils/pre_processing.h"
+#include "./semantic_preprocesing_utils/semantic_analysis.h"
 
 extern FILE *yyin;
 extern int yylex();
@@ -30,12 +31,10 @@ extern astNode *root;
 using namespace std;
 namespace fs = std::experimental::filesystem;
 
-void doGlobalOptimizationWithConstantFolding(LLVMModuleRef module)
-{
+void doGlobalOptimizationWithConstantFolding(LLVMModuleRef module) {
     bool hasModuleChanged = true;
 
-    while (hasModuleChanged)
-    {
+    while (hasModuleChanged) {
         walkFunctionsForCommonSubExprAndDeadCodeElimination(module);
 
         // do constant folding
@@ -45,11 +44,8 @@ void doGlobalOptimizationWithConstantFolding(LLVMModuleRef module)
     }
 }
 
-int main(int argc, char **argv)
-{
-
-    if (argc != 2)
-    {
+int main(int argc, char **argv) {
+    if (argc != 2) {
         fprintf(stderr, "Two few arguments...\n");
         exit(EXIT_FAILURE);
     }
@@ -59,8 +55,7 @@ int main(int argc, char **argv)
     //     #endif
 
     yyin = fopen(argv[1], "r");
-    if (yyin == NULL)
-    {
+    if (yyin == NULL) {
         fprintf(stderr, "Error reading file\n");
         exit(EXIT_FAILURE);
     }
@@ -68,8 +63,7 @@ int main(int argc, char **argv)
     yyparse();
 
     astNode *node = root;
-    if (!is_semantically_correct(node))
-    {
+    if (!is_semantically_correct(node)) {
         fprintf(stderr, "semantic analysis failed!\n");
         exit(EXIT_FAILURE);
     }

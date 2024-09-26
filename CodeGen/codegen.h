@@ -5,6 +5,7 @@
 #include <llvm-c/IRReader.h>
 #include <llvm-c/Types.h>
 
-void generate_assembly_code(const char *filename, LLVMModuleRef moduleReference);
+void generate_assembly_code(const char *filename,
+                            LLVMModuleRef moduleReference);
 
-#endif // REGISTER_ALLOCATION_H
+#endif  // REGISTER_ALLOCATION_H

@@ -1,41 +1,38 @@
 #include "optimizations_utils.h"
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <llvm-c/Core.h>
 #include <llvm-c/IRReader.h>
 #include <llvm-c/Types.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <algorithm>
-#include <vector>
 #include <cstring>
 #include <map>
 #include <set>
+#include <vector>
 using namespace std;
 
 #define prt(x)             \
-    if (x)                 \
-    {                      \
+    if (x) {               \
         printf("%s\n", x); \
     }
 
-LLVMOpcode getOpcode(LLVMValueRef instruction)
-{
+LLVMOpcode getOpcode(LLVMValueRef instruction) {
     return LLVMGetInstructionOpcode(instruction);
 }
 
-vector<LLVMValueRef> getOperands(LLVMValueRef instruction)
-{
+vector<LLVMValueRef> getOperands(LLVMValueRef instruction) {
     vector<LLVMValueRef> operands;
-    for (int i = 0; i < LLVMGetNumOperands(instruction); i++)
-    {
+    for (int i = 0; i < LLVMGetNumOperands(instruction); i++) {
         LLVMValueRef operand = LLVMGetOperand(instruction, i);
         operands.push_back(operand);
     }
     return operands;
 }
 
-InstructionProps createInstructionProps(LLVMValueRef instruction)
-{
+InstructionProps createInstructionProps(LLVMValueRef instruction) {
     InstructionProps inst;
     inst.instruction = instruction;
     inst.opcode = getOpcode(instruction);
@@ -44,21 +41,18 @@ InstructionProps createInstructionProps(LLVMValueRef instruction)
     return inst;
 }
 
-map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> getPredcessorsMap(LLVMValueRef function)
-{
-
+map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> getPredcessorsMap(
+    LLVMValueRef function) {
     map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> predecessorsMap;
-    for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function); basicBlock; basicBlock = LLVMGetNextBasicBlock(basicBlock))
-    {
+    for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function);
+         basicBlock; basicBlock = LLVMGetNextBasicBlock(basicBlock)) {
         LLVMValueRef terminator = LLVMGetBasicBlockTerminator(basicBlock);
 
-        if (terminator != NULL)
-        {
+        if (terminator != NULL) {
             int numSucessors = LLVMGetNumSuccessors(terminator);
             LLVMBasicBlockRef successor = NULL;
 
-            for (int index = 0; index < numSucessors; index++)
-            {
+            for (int index = 0; index < numSucessors; index++) {
                 successor = LLVMGetSuccessor(terminator, index);
                 predecessorsMap[successor].insert(basicBlock);
             }
@@ -68,72 +62,59 @@ map<LLVMBasicBlockRef, set<LLVMBasicBlockRef>> getPredcessorsMap(LLVMValueRef fu
     return predecessorsMap;
 }
 
-bool areAllOperandsSame(LLVMValueRef oldInst, LLVMValueRef currInst)
-{
+bool areAllOperandsSame(LLVMValueRef oldInst, LLVMValueRef currInst) {
     vector<LLVMValueRef> currOperands = getOperands(currInst);
     vector<LLVMValueRef> oldOperands = getOperands(oldInst);
 
-    if (currOperands.size() != oldOperands.size())
-    {
+    if (currOperands.size() != oldOperands.size()) {
         return false;
     }
 
-    for (int index = 0; index < (int)currOperands.size(); index++)
-    {
-        if (currOperands[index] != oldOperands[index])
-        {
+    for (int index = 0; index < (int)currOperands.size(); index++) {
+        if (currOperands[index] != oldOperands[index]) {
             return false;
         }
     }
     return true;
 }
 
-bool isValidOpcode(LLVMValueRef instruction)
-{
+bool isValidOpcode(LLVMValueRef instruction) {
     LLVMOpcode opcode = getOpcode(instruction);
 
-    switch (opcode)
-    {
-    case LLVMLoad:
-        return true;
-        break;
-    case LLVMAdd:
-        return true;
-        break;
-    case LLVMSub:
-        return true;
-        break;
-    case LLVMMul:
-        return true;
-        break;
-    default:
-        return false;
-        break;
+    switch (opcode) {
+        case LLVMLoad:
+            return true;
+            break;
+        case LLVMAdd:
+            return true;
+            break;
+        case LLVMSub:
+            return true;
+            break;
+        case LLVMMul:
+            return true;
+            break;
+        default:
+            return false;
+            break;
     }
 }
 
-void walkGlobalValues(LLVMModuleRef module)
-{
-    for (LLVMValueRef gVal = LLVMGetFirstGlobal(module);
-         gVal;
-         gVal = LLVMGetNextGlobal(gVal))
-    {
+void walkGlobalValues(LLVMModuleRef module) {
+    for (LLVMValueRef gVal = LLVMGetFirstGlobal(module); gVal;
+         gVal = LLVMGetNextGlobal(gVal)) {
     }
 }
 
-map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(LLVMValueRef function)
-{
+map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(
+    LLVMValueRef function) {
     map<LLVMValueRef, set<LLVMValueRef>> memPtrToInstructionsMap = {};
     LLVMValueRef memoryOperand = NULL;
-    for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function); basicBlock;
-         basicBlock = LLVMGetNextBasicBlock(basicBlock))
-    {
-
-        for (LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock); instruction;
-             instruction = LLVMGetNextInstruction(instruction))
-        {
-            if (getOpcode(instruction) == LLVMStore)
-            {
+    for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function);
+         basicBlock; basicBlock = LLVMGetNextBasicBlock(basicBlock)) {
+        for (LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock);
+             instruction; instruction = LLVMGetNextInstruction(instruction)) {
+            if (getOpcode(instruction) == LLVMStore) {
                 memoryOperand = LLVMGetOperand(instruction, 1);
 
                 memPtrToInstructionsMap[memoryOperand].insert(instruction);
@@ -144,19 +125,15 @@ map<LLVMValueRef, set<LLVMValueRef>> getMemoryToInstructionsMap(LLVMValueRef fun
     return memPtrToInstructionsMap;
 }
 
-map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(LLVMValueRef function)
-{
+map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(
+    LLVMValueRef function) {
     map<LLVMBasicBlockRef, set<LLVMValueRef>> blockToInstructionsMap;
 
     for (LLVMBasicBlockRef basicBlock = LLVMGetFirstBasicBlock(function);
-         basicBlock;
-         basicBlock = LLVMGetNextBasicBlock(basicBlock))
-    {
-        for (LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock); instruction;
-             instruction = LLVMGetNextInstruction(instruction))
-        {
-            if (getOpcode(instruction) == LLVMStore)
-            {
+         basicBlock; basicBlock = LLVMGetNextBasicBlock(basicBlock)) {
+        for (LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock);
+             instruction; instruction = LLVMGetNextInstruction(instruction)) {
+            if (getOpcode(instruction) == LLVMStore) {
                 blockToInstructionsMap[basicBlock].insert(instruction);
             }
         }
@@ -165,29 +142,23 @@ map<LLVMBasicBlockRef, set<LLVMValueRef>> getBlockToInstructionsMap(LLVMValueRef
     return blockToInstructionsMap;
 }
 
-void walkBBInstructionsForDeadCodeElimination(LLVMBasicBlockRef basicBlock)
-{
+void walkBBInstructionsForDeadCodeElimination(LLVMBasicBlockRef basicBlock) {
     LLVMValueRef instruction = LLVMGetFirstInstruction(basicBlock);
     LLVMValueRef nextInstruction = NULL;
-    while (instruction != NULL)
-    {
+    while (instruction != NULL) {
         LLVMOpcode opcode = getOpcode(instruction);
-        if (opcode != LLVMStore && opcode != LLVMRet && opcode != LLVMAlloca && opcode != LLVMCall)
-        {
+        if (opcode != LLVMStore && opcode != LLVMRet && opcode != LLVMAlloca &&
+            opcode != LLVMCall) {
             LLVMUseRef use = LLVMGetFirstUse(instruction);
-            if (use == NULL && LLVMIsATerminatorInst(instruction) == NULL)
-            {
+            if (use == NULL && LLVMIsATerminatorInst(instruction) == NULL) {
                 nextInstruction = LLVMGetNextInstruction(instruction);
                 LLVMInstructionEraseFromParent(instruction);
             }
         }
-        if (nextInstruction != NULL)
-        {
+        if (nextInstruction != NULL) {
             instruction = nextInstruction;
             nextInstruction = NULL;
-        }
-        else
-        {
+        } else {
             instruction = LLVMGetNextInstruction(instruction);
         }
     }

@@ -1,8 +1,7 @@
 extern void print(int);
 extern int read();
 
-int func(int n)
-{
+int func(int n) {
     int a;
     int b;
     int i;
@@ -10,8 +9,7 @@ int func(int n)
     b = 1;
     i = 0;
 
-    while (i < n)
-    {
+    while (i < n) {
         int t;
         print(a);
         i = i + 1;

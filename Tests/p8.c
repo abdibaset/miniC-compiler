@@ -1,15 +1,13 @@
 extern void print(int);
 extern int read();
-int func(int n)
-{
+int func(int n) {
     int a1;
     int a2;
     int i;
     a1 = read();
     a2 = read();
     i = 0;
-    while (i < n)
-    {
+    while (i < n) {
         int t;
         print(i);
         print(a1);

@@ -4,4 +4,4 @@
 
 bool is_semantically_correct(astNode *root);
 
-#endif // SEMANTIC_ANALYSIS_H
+#endif  // SEMANTIC_ANALYSIS_H
